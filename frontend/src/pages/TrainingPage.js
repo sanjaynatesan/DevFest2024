@@ -1,33 +1,25 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import "../App.css";
-import axios from "axios";
 
 function TrainingPage() {
     const [recentSongs, setRecentSongs] = useState(null);
     const [recentSongsLoaded, setRecentSongsLoaded] = useState(false);
     const [album, setAlbum] = useState(null);
 
-    useEffect(() => {
-        if (recentSongsLoaded !== false) {
-            return;
-        }
-        async function fetchData() {
-            try {
-                const response = await fetch('http://127.0.0.1:5000/recent');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setRecentSongs(data);
-                setRecentSongsLoaded(true);
-            } catch (error) {
-                console.error('Error fetching recent data:', error);
+    async function fetchData() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/songemotion');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
-        fetchData(); // Call the async function
-        return () => {
-        };
-      }, []);
+            const data = await response.json();
+            setRecentSongs(data);
+            setRecentSongsLoaded(true);
+        } catch (error) {
+            console.error('Error fetching recent data:', error);
+        }
+    };
+
 
 
 
@@ -46,7 +38,7 @@ function TrainingPage() {
                 How does this song make you feel?
             </div>
             <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>
+                <div onClick={fetchData} className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Happy</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Excited</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Wistful</div>
