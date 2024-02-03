@@ -1,8 +1,8 @@
+import psycopg2
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
+
 import algorithms
-import os
-import psycopg2
 
 api = Flask(__name__)
 CORS(api)
@@ -77,6 +77,132 @@ def recent():
     response.headers.add("Access-Control-Allow-Origin", "*")
     response.headers.add("Content-Type':'application/json", "*")
     return response
+
+
+@api.route('/dummy', methods=['POST', 'GET'])
+def dummy():
+    dummy_response = [
+        {
+            "artist": "Nicky Jam",
+            "genres": [
+                "latin hip hop",
+                "reggaeton",
+                "trap latino",
+                "urbano latino"
+            ],
+            "title": "X (feat. Maluma & Ozuna) - Remix",
+            "uri": "spotify:track:6JjPBQfI2Y8nIjnm65X6Pw",
+            "weight": 5.158460415146735
+        },
+        {
+            "artist": "Ozuna",
+            "genres": [
+                "puerto rican pop",
+                "reggaeton",
+                "trap latino",
+                "urbano latino"
+            ],
+            "title": "Bebé",
+            "uri": "spotify:track:0ulsRBiciReng91DhfVT9D",
+            "weight": 4.720726046469784
+        },
+        {
+            "artist": "Jay Chou",
+            "genres": [
+                "c-pop",
+                "mandopop",
+                "taiwan pop",
+                "zhongguo feng"
+            ],
+            "title": "蒲公英的約定",
+            "uri": "spotify:track:3JovAXFjc98TkksMfeyIMh",
+            "weight": 2.884160497896886
+        },
+        {
+            "artist": "Prince Royce",
+            "genres": [
+                "bachata",
+                "latin hip hop",
+                "latin pop",
+                "urbano latino"
+            ],
+            "title": "Cosas de la Peda (feat. Gabito Ballesteros)",
+            "uri": "spotify:track:1RzNRKntEk0KiQE4NFBKmc",
+            "weight": 5.28964254738048
+        },
+        {
+            "artist": "Romeo Santos",
+            "genres": [
+                "bachata",
+                "latin hip hop",
+                "latin pop",
+                "urbano latino"
+            ],
+            "title": "Mi Santa (feat. Tomatito)",
+            "uri": "spotify:track:4EbAftNM732UGLF8gmIIsX",
+            "weight": 5.28964254738048
+        },
+        {
+            "artist": "CNCO",
+            "genres": [
+                "boy band",
+                "latin pop",
+                "reggaeton",
+                "urbano latino"
+            ],
+            "title": "Reggaetón Lento (Bailemos)",
+            "uri": "spotify:track:3AEZUABDXNtecAOSC1qTfo",
+            "weight": 4.556474012983767
+        },
+        {
+            "artist": "Ozuna",
+            "genres": [
+                "puerto rican pop",
+                "reggaeton",
+                "trap latino",
+                "urbano latino"
+            ],
+            "title": "Egoísta",
+            "uri": "spotify:track:4X3CV9rXo3hQrkb0fzRAux",
+            "weight": 4.720726046469784
+        },
+        {
+            "artist": "Romeo Santos",
+            "genres": [
+                "bachata",
+                "latin hip hop",
+                "latin pop",
+                "urbano latino"
+            ],
+            "title": "Eres Mía",
+            "uri": "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
+            "weight": 5.28964254738048
+        },
+        {
+            "artist": "Romeo Santos",
+            "genres": [
+                "bachata",
+                "latin hip hop",
+                "latin pop",
+                "urbano latino"
+            ],
+            "title": "Amor Enterrado",
+            "uri": "spotify:track:3cdTfwai1PtCGOd9DIBMNU",
+            "weight": 5.28964254738048
+        },
+        {
+            "artist": "Zacarias Ferreira",
+            "genres": [
+                "bachata",
+                "bachata dominicana"
+            ],
+            "title": "Es Tan Difícil",
+            "uri": "spotify:track:0Ihu6hcj4hrWVz22W3G10P",
+            "weight": 2.5905292832732236
+        }
+    ]
+
+    return dummy_response
 
 
 if __name__ == '__main__':
