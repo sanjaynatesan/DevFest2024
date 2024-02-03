@@ -7,6 +7,7 @@ import SessionPrePage from "./pages/SessionPrePage";
 import TalkToUsPage from "./pages/TalkToUsPage";
 import TalkToUsResultPage from "./pages/TalkToUsResultPage";
 import SessionPage from "./pages/SessionPage";
+import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 function App() {
   return (
