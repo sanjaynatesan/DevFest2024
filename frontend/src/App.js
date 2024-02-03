@@ -11,7 +11,7 @@ import SessionPage from "./pages/SessionPage";
 function App() {
   return (
     <div className={`w-screen`}>
-      <SessionPage/>
+      <LoginPage/>
     </div>
   )
 }

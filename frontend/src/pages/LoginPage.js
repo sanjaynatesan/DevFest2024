@@ -10,20 +10,66 @@ function LoginPage() {
 
     const [token, setToken] = useState("");
 
-    useEffect( () => {
-        const hash = window.location.hash;
-        let token = window.localStorage.getItem("token")
+    // useEffect( () => {
+    //     const hash = window.location.hash;
+    //     let token = window.localStorage.getItem("token")
+    //
+    //     if(!token && hash){
+    //         token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+    //
+    //         window.location.hash = "";
+    //         window.localStorage.setItem("token", token);
+    //         console.log("hey");
+    //         setToken(token);
+    //     }
+    //
+    // }, [])
 
-        if(!token && hash){
-            token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+    useEffect(() => {
+        console.log("Hi");
+        const handleSpotifyCallback = async () => {
+            const hash = window.location.hash;
+            // let accessToken = window.localStorage.getItem("token");
+            let accessToken;
 
-            window.location.hash = "";
-            window.localStorage.setItem("token", token);
-            console.log("hey");
-            setToken(token);
-        }
+            console.log(accessToken);
+            if (!accessToken && hash) {
+                accessToken = hash
+                    .substring(1)
+                    .split("&")
+                    .find((elem) => elem.startsWith("access_token"))
+                    .split("=")[1];
 
-    }, [])
+                window.location.hash = "";
+                window.localStorage.setItem("token", accessToken);
+
+                // Call the Flask endpoint to handle user login
+
+            }
+            try {
+                console.log(JSON.stringify({ access_token: accessToken }))
+                const response = await fetch("/callback", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ access_token: accessToken }),
+                });
+
+                if (response.ok) {
+                    console.log("User authenticated and added to the database successfully");
+                } else {
+                    console.error("Failed to authenticate user");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+
+            setToken(accessToken);
+        };
+
+        handleSpotifyCallback();
+    }, []);
 
     return (
         <div>

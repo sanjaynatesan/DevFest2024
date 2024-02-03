@@ -17,7 +17,7 @@ redirect_uri='http://127.0.0.1:7777/callback'
 username = '9tlgjm5tb8iivhwr525qopqu7' # 11153510588
 
 # Authorization flow
-scope = 'user-read-recently-played user-library-read playlist-read-private' 
+scope = 'user-read-recently-played user-library-read playlist-read-private user-read-private'
 # scope = 'user-read-recently-played' # 'user-top-read'
 # SCOPE = 'user-library-read user-top-read user-read-recently-played user-read-playback-state'
 # token = util.prompt_for_user_token(username, scope, client_id=cid, client_secret=secret, redirect_uri=redirect_uri)
