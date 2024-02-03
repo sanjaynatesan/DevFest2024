@@ -11,7 +11,19 @@ import SessionPage from "./pages/SessionPage";
 function App() {
   return (
     <div className={`w-screen`}>
-      <SessionPage/>
+      <Router>
+        <Routes>
+          <Route path="*" exact element={<HomePage />}/>
+          <Route path="/login" exact element={<LoginPage />} />
+          <Route path="/training" exact element={<TrainingPage />} />
+          <Route path="/" exact element={<HomePage />} />
+          <Route path="/session-start" exact element={<SessionStartPage />} />
+          <Route path="/session-pre" exact element={<SessionPrePage />} />
+          <Route path="/session" exact element={<SessionPage />} />
+          <Route path="/talk-to-us" exact element={<TalkToUsPage />} />
+          <Route path="/talk-to-us-result" exact element={<TalkToUsResultPage />} />
+        </Routes>
+      </Router>  
     </div>
   )
 }

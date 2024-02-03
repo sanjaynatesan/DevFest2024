@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 import "../App.css";
 function SessionStartPage() {
 
@@ -39,22 +40,27 @@ function SessionStartPage() {
                 <div>We're so glad you're here.</div>
             </div>
             <div className="my-4 text-center">
-                <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
-                    <div className="flex flex-row">
-                        <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
-                            Find New Music
+                <Link to="/session-pre">
+                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                        <div className="flex flex-row">
+                            <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
+                                Find New Music
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>   
+                </Link>
+                
             </div>
             <div className="my-4 text-center">
-                <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
-                    <div className="flex flex-row">
-                        <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
-                            Talk to Us
+                <Link to="/talk-to-us">
+                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                        <div className="flex flex-row">
+                            <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
+                                Talk to Us
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>   
+                </Link>
             </div>
         </div>
     );
