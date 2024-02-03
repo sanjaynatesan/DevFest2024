@@ -3,11 +3,19 @@ import {Link} from "react-router-dom";
 import "../App.css";
 
 function HomePage() {
+    const [displayName, setDisplayName] = useState("User");
+
+    useEffect(() => {
+        // Retrieve display_name from local storage
+        const storedDisplayName = window.localStorage.getItem("display_name");
+        setDisplayName(storedDisplayName || "Guest"); // Set default to "Guest" if not found
+    }, []);
+
 
     return(
         <div>
             <div className="mt-40 mb-24 text-center text-3xl sm:text-4xl font-mono">
-                Good evening, Erick.
+                Good evening, {displayName}.
             </div>
 
             <div className="my-4 text-center">
