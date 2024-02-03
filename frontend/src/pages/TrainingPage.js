@@ -9,6 +9,14 @@ function TrainingPage() {
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [inputValue, setInputValue] = useState('');
 
+    const [displayName, setDisplayName] = useState("User");
+
+    useEffect(() => {
+        // Retrieve display_name from local storage
+        const storedDisplayName = window.localStorage.getItem("display_name");
+        setDisplayName(storedDisplayName || "Guest"); // Set default to "Guest" if not found
+    }, []);
+
 
 
     useEffect( () => {
@@ -76,7 +84,7 @@ function TrainingPage() {
     return(
         <div>
             <div className="mt-20 mx-560 text-center text-xl sm:text-2xl font-mono">Hey,&nbsp;
-                <span className="text-green-400"> Erick.&nbsp; </span>
+                <span className="text-green-400"> {displayName}.&nbsp; </span>
                 Let's talk about your music. Here is a song you played recently:
             </div>
             <div>
