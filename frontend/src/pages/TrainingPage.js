@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import "../App.css";
 
 function TrainingPage() {
@@ -6,20 +6,24 @@ function TrainingPage() {
     const [recentSongsLoaded, setRecentSongsLoaded] = useState(false);
     const [album, setAlbum] = useState(null);
 
-    async function fetchData() {
-        try {
-            const response = await fetch('http://127.0.0.1:5000/dummy');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    useEffect( () => {
+        async function fetchData() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/dummy');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setRecentSongs(data);
+                setRecentSongsLoaded(true);
+                console.log(data);
+            } catch (error) {
+                console.error('Error fetching recent data:', error);
             }
-            const data = await response.json();
-            setRecentSongs(data);
-            setRecentSongsLoaded(true);
-            console.log(data);
-        } catch (error) {
-            console.error('Error fetching recent data:', error);
-        }
-    };
+        };
+        fetchData();
+    }, [])
+
 
 
 
@@ -50,7 +54,7 @@ function TrainingPage() {
                 How does this song make you feel?
             </div>
             <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
-                <div onClick={fetchData} className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>
+                <div className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Happy</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Excited</div>
                 <div className="border-black border-2 p-4 hover:cursor-pointer">Wistful</div>
