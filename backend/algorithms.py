@@ -60,7 +60,9 @@ def rselect():
         track_info = {
             'title': results['items'][index]['track']['name'],
             'artist':  results['items'][index]["track"]["artists"][0]['name'],
+            'album': results['items'][index]['track']['album']['name'],
             'genres': artist['genres'],
+            'image': results['items'][index]['track']['album']['images'][0]['url'],
             'uri':  results['items'][index]['track']['uri'],
             'weight': 0,
         }
@@ -216,5 +218,3 @@ def get_recs():
         print(f'Title: {song["name"]}, Artist: {song["artists"][0]["name"]}, URI: {song["uri"]}')
 
     # print(recommended_songs)
-
-   

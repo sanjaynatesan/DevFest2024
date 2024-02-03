@@ -22,7 +22,7 @@ function TrainingPage() {
     useEffect( () => {
         async function fetchData() {
             try {
-                const response = await fetch('http://127.0.0.1:5000/dummy');
+                const response = await fetch('http://127.0.0.1:5000/recent');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -103,7 +103,7 @@ function TrainingPage() {
                     className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
                     className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
-                <div className="mx-60 text-center text-xl sm:text-xl font-mono">"Album"</div>
+                <div className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].album : "Album"}</div>
 
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
