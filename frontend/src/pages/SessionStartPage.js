@@ -7,6 +7,15 @@ function SessionStartPage() {
 
     const [time, setTime] = useState(getTimeOfDay());
     const [timeOfDay, setTimeOfDay] = useState("Good evening");
+
+    const [displayName, setDisplayName] = useState("User");
+
+    useEffect(() => {
+        // Retrieve display_name from local storage
+        const storedDisplayName = window.localStorage.getItem("display_name");
+        setDisplayName(storedDisplayName || "Guest"); // Set default to "Guest" if not found
+    }, []);
+
     useEffect(() => {
         setTime(getTimeOfDay());
         setTimeOfDay(`Good ${time[0]}`);
@@ -36,7 +45,7 @@ function SessionStartPage() {
     return(
         <div>
             <div className="mt-40 mb-24 text-center text-3xl sm:text-4xl font-mono">
-                <div>Good {time[0]}, Sazu.</div>
+                <div>Good {time[0]}, {displayName}.</div>
                 <div>We're so glad you're here.</div>
             </div>
             <div className="my-4 text-center">
