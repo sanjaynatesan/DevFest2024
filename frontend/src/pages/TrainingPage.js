@@ -4,7 +4,10 @@ import "../App.css";
 function TrainingPage() {
     const [recentSongs, setRecentSongs] = useState(null);
     const [recentSongsLoaded, setRecentSongsLoaded] = useState(false);
-    const [album, setAlbum] = useState(null);
+    const [selectedFeelings, setSelectedFeelings] = useState([]);
+    const [submissionStatus, setSubmissionStatus] = useState(null);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+
 
     useEffect( () => {
         async function fetchData() {
@@ -25,6 +28,42 @@ function TrainingPage() {
     }, [])
 
 
+    function handleFeelingClick(feeling) {
+        // Toggle the selected feeling
+        setSelectedFeelings((prevSelectedFeelings) => {
+            if (prevSelectedFeelings.includes(feeling)) {
+                return prevSelectedFeelings.filter((selectedFeeling) => selectedFeeling !== feeling);
+            } else {
+                return [...prevSelectedFeelings, feeling];
+            }
+        });
+    }
+
+    async function handleSubmit() {
+        try {
+            const response = await fetch('http://127.0.0.1:5000/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ feelings: selectedFeelings }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setSubmissionStatus(data.message); // Extract the 'message' property
+
+            // Move to the next song
+            setCurrentSongIndex((prevIndex) => (prevIndex + 1) % recentSongs.length);
+            setSelectedFeelings([]);
+        } catch (error) {
+            console.error('Error submitting feelings:', error);
+        }
+    }
+
 
 
 
@@ -36,7 +75,7 @@ function TrainingPage() {
             </div>
             <div>
                 <img
-                    src={recentSongsLoaded && recentSongs ? recentSongs[0].image : "#"} // Replace 'image' with the actual property name in your API response
+                    src={recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].image : "#"} // Replace 'image' with the actual property name in your API response
                     alt="Song Cover"
                     className="mx-auto mt-4 w-32 h-32 rounded-md"
                 />
@@ -44,23 +83,70 @@ function TrainingPage() {
                 {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Artist</div>*/}
                 {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Album</div>*/}
                 <div
-                    className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[0].title : "Song Title"}</div>
+                    className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
-                    className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[0].artist : "Artist"}</div>
+                    className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
                 <div className="mx-60 text-center text-xl sm:text-xl font-mono">"Album"</div>
 
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                 How does this song make you feel?
             </div>
+            {/*<div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Happy</div>*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Excited</div>*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Wistful</div>*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Faithful</div>*/}
+            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Salacious</div>*/}
+            {/*</div>*/}
+
             <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Happy</div>
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Excited</div>
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Wistful</div>
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Faithful</div>
-                <div className="border-black border-2 p-4 hover:cursor-pointer">Salacious</div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Jaded") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Jaded")}
+                >
+                    Jaded
+                </div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Happy") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Happy")}
+                >
+                    Happy
+                </div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Excited") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Excited")}
+                >
+                    Excited
+                </div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Wistful") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Wistful")}
+                >
+                    Wistful
+                </div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Faithful") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Faithful")}
+                >
+                    Faithful
+                </div>
+                <div
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Salacious") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Salacious")}
+                >
+                    Salacious
+                </div>
             </div>
+
+            <div className="mt-6 mx-72 text-center font-mono">
+                <button onClick={handleSubmit} className="border-black border-2 p-4 hover:cursor-pointer">Next</button>
+            </div>
+
+            {submissionStatus && (
+                <div className="mt-6 mx-72 text-center text-xl text-green-400 font-mono">{submissionStatus}</div>
+            )}
         </div>
     );
 }

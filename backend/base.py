@@ -215,5 +215,17 @@ def dummy():
     return dummy_response
 
 
+@api.route('/submit', methods=['POST'])
+def submit_feelings():
+    try:
+        data = request.get_json()
+        feelings = data.get('feelings', [])
+        print(f'Received feelings: {feelings}')
+        return {'message': 'Good shit!'}
+    except Exception as e:
+        print(f'Error processing feelings: {str(e)}')
+        return {'error': 'Failed to process feelings'}, 500
+
+
 if __name__ == '__main__':
     api.run(debug=True, host='127.0.0.1', port=5000)
