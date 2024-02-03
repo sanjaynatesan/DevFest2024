@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../App.css";
 
 function TrainingPage() {
@@ -7,6 +7,8 @@ function TrainingPage() {
     const [selectedFeelings, setSelectedFeelings] = useState([]);
     const [submissionStatus, setSubmissionStatus] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
+    const [inputValue, setInputValue] = useState('');
+
 
 
     useEffect( () => {
@@ -37,6 +39,10 @@ function TrainingPage() {
                 return [...prevSelectedFeelings, feeling];
             }
         });
+    }
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
     }
 
     async function handleSubmit() {
@@ -137,6 +143,17 @@ function TrainingPage() {
                     onClick={() => handleFeelingClick("Salacious")}
                 >
                     Salacious
+                </div>
+            </div>
+            <div>
+                <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
+                    <span className={"mr-4"}>Or, talk to us:</span>
+                    <input type="text"
+                           value={inputValue}
+                           onChange={handleInputChange}
+                           placeholder="Enter something..."
+                           className="border-black border-2 p-4 hover:cursor-pointer"
+                    ></input>
                 </div>
             </div>
 

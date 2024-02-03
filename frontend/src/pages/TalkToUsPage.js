@@ -53,8 +53,6 @@ function TalkToUsPage() {
                     {inputValue}
                 </div>
             </div>
-
-
             }
         </div>
     );
