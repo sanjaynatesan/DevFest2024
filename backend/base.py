@@ -6,7 +6,7 @@ import requests
 import algorithms
 import spotipy
 # import spotipy.util as util
-from spotipy.oauth2 import SpotifyOAuth #, SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyOAuth  # , SpotifyClientCredentials
 
 api = Flask(__name__)
 CORS(api)
@@ -40,6 +40,7 @@ REDIRECT_URI = "http://localhost:5000/callback"  # Make sure this matches your a
 AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
 TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token"
 
+
 @api.route('/login', methods=['POST', 'GET'])
 def login():
     conn = get_database_connection()
@@ -69,14 +70,23 @@ def login():
 
     return "User added", 200
 
+
+@api.route('/getUserInfo', methods=['GET'])
+@cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
+def getUserInfo():
+    data = request.get_json(force=True)
+
+    pass
+
+
 # Additional route to handle the Spotify callback
 @api.route('/callback', methods=['POST'])
 @cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
 def spotify_callback():
-    cid = '8dca5b067d01447db4b574af663fd0be' # 412a5c5cfedd4d15b71c65b4610ad586
-    secret = '0b2741bd6f4947b5b911083c846da214' # 0d20d831e837457abf4cf32276e2a940
-    redirect_uri='http://127.0.0.1:7777/callback'
-    username = '9tlgjm5tb8iivhwr525qopqu7' # 11153510588
+    cid = '8dca5b067d01447db4b574af663fd0be'  # 412a5c5cfedd4d15b71c65b4610ad586
+    secret = '0b2741bd6f4947b5b911083c846da214'  # 0d20d831e837457abf4cf32276e2a940
+    redirect_uri = 'http://127.0.0.1:7777/callback'
+    username = '9tlgjm5tb8iivhwr525qopqu7'  # 11153510588
 
     # Authorization flow
     scope = 'user-read-recently-played user-library-read playlist-read-private user-read-private'
@@ -106,14 +116,23 @@ def spotify_callback():
     if response.status_code == 200:
         user_data = response.json()
         # Call the /login route to add the user to the database
-        requests.post('http://127.0.0.1:5000/login', json={'username': user_data['id'], 'display_name': user_data['display_name']})
-        return "User authenticated and added to the database successfully"
+        requests.post('http://127.0.0.1:5000/login',
+                      json={'username': user_data['id'], 'display_name': user_data['display_name']})
+        user_info = {
+            "username": user_data['id'],
+            "display_name": user_data['display_name'],
+        }
+        return user_info
+        # return "User authenticated and added to the database successfully"
+
+        # login_response = requests.post('http://127.0.0.1:5000/login', json={'username': user_data['id'], 'display_name': user_data['display_name']})
 
     return "Failed to authenticate user", 500
 
+
+
 @api.route('/songemotion', methods=['POST', 'GET'])
 def song_emotion():
-
     response_body = {
         "response": "Dawg I'm stimming"
     }
@@ -130,7 +149,6 @@ def add_user():
     cur = conn.cursor()
     print("Cur established")
 
-    
     data = request.get_json(force=True)
     print(data)
     username = data['username']
@@ -144,13 +162,14 @@ def add_user():
         cur.close()
         conn.close()
         return "Username already exists", 200
-    
+
     cur.execute("INSERT INTO user_info (username, display_name) VALUES (%s, %s)", (username, display_name))
     conn.commit()
     cur.close()
     conn.close()
 
     return "User added", 200
+
 
 @api.route('/recent', methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True, origins='http://127.0.0.1:3000')

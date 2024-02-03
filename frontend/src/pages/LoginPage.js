@@ -9,6 +9,7 @@ function LoginPage() {
     const RESPONSE_TYPE = "token";
 
     const [token, setToken] = useState("");
+    const [userInfo, setUserInfo] = useState(null);
 
     // useEffect( () => {
     //     const hash = window.location.hash;
@@ -24,6 +25,27 @@ function LoginPage() {
     //     }
     //
     // }, [])
+
+    // const getUserInfo = () => {
+    //     try {
+    //         const userInfo = await fetch("/getUserInfo", {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify({ access_token: accessToken }),
+    //         });
+    //
+    //         if (response.ok) {
+    //             console.log("User authenticated and added to the database successfully");
+    //         } else {
+    //             console.error("Failed to authenticate user");
+    //         }
+    //         return userInfo;
+    //     } catch (error) {
+    //         console.error("Error:", error);
+    //     }
+    // };
 
     useEffect(() => {
         console.log("Hi");
@@ -46,8 +68,28 @@ function LoginPage() {
                 // Call the Flask endpoint to handle user login
 
             }
+            // try {
+            //     console.log(JSON.stringify({ access_token: accessToken }))
+            //     const response = await fetch("/callback", {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify({ access_token: accessToken }),
+            //     });
+            //     console.log(response);
+            //
+            //     if (response.ok) {
+            //         console.log("User authenticated and added to the database successfully");
+            //     } else {
+            //         console.error("Failed to authenticate user");
+            //     }
+            // } catch (error) {
+            //     console.error("Error:", error);
+            // }
+            //
+            // setToken(accessToken);
             try {
-                console.log(JSON.stringify({ access_token: accessToken }))
                 const response = await fetch("/callback", {
                     method: "POST",
                     headers: {
@@ -58,14 +100,17 @@ function LoginPage() {
 
                 if (response.ok) {
                     console.log("User authenticated and added to the database successfully");
+                    const userInfo = await response.json();
+                    setUserInfo(userInfo);
+                    console.log(userInfo);
+                    window.localStorage.setItem("display_name", userInfo['display_name'])
+                    window.localStorage.setItem("username", userInfo['username'])
                 } else {
                     console.error("Failed to authenticate user");
                 }
             } catch (error) {
                 console.error("Error:", error);
             }
-
-            setToken(accessToken);
         };
 
         handleSpotifyCallback();
