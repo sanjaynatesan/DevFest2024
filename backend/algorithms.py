@@ -46,14 +46,22 @@ def rselect():
 
     songs = []
 
+    artist_ids = []
     for track in results['items']:
-        artist = sp.artist(track["track"]["artists"][0]["external_urls"]["spotify"])
+        artist_ids.append(track["track"]["artists"][0]["external_urls"]["spotify"])
 
+    artists = sp.artists(artist_ids)['artists']
+    # pointer = 0
+    # for track in results['items']:
+        # artist = sp.artist(track["track"]["artists"][0]["external_urls"]["spotify"])
+    # print(artists)
+    for index, artist in enumerate(artists):
+        print(index, artist)
         track_info = {
-            'title': track['track']['name'],
-            'artist': track["track"]["artists"][0]['name'],
+            'title': results['items'][index]['track']['name'],
+            'artist':  results['items'][index]["track"]["artists"][0]['name'],
             'genres': artist['genres'],
-            'uri': track['track']['uri'],
+            'uri':  results['items'][index]['track']['uri'],
             'weight': 0,
         }
         if track_info in songs: 
