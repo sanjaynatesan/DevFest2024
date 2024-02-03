@@ -7,7 +7,7 @@ function TrainingPage() {
     const [selectedFeelings, setSelectedFeelings] = useState([]);
     const [submissionStatus, setSubmissionStatus] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
-    const [inputValue, setInputValue] = useState('');
+    const [writtenFeelings, setWrittenFeelings] = useState('');
 
     const [displayName, setDisplayName] = useState("User");
 
@@ -49,8 +49,8 @@ function TrainingPage() {
         });
     }
 
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
+    const handleWrittenFeelingsChange = (e) => {
+        setWrittenFeelings(e.target.value);
     }
 
     async function handleSubmit() {
@@ -60,7 +60,10 @@ function TrainingPage() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ feelings: selectedFeelings }),
+                body: JSON.stringify({ 
+                    feelings: selectedFeelings,
+                    written_feelings: writtenFeelings,
+                 }),
             });
 
             if (!response.ok) {
@@ -157,8 +160,8 @@ function TrainingPage() {
                 <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                     <span className={"mr-4"}>Or, talk to us:</span>
                     <input type="text"
-                           value={inputValue}
-                           onChange={handleInputChange}
+                           value={writtenFeelings}
+                           onChange={handleWrittenFeelingsChange}
                            placeholder="Enter something..."
                            className="border-black border-2 p-4 hover:cursor-pointer"
                     ></input>

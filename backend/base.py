@@ -322,7 +322,9 @@ def submit_feelings():
     try:
         data = request.get_json()
         feelings = data.get('feelings', [])
+        written_feelings = data.get('written_feelings', None);
         print(f'Received feelings: {feelings}')
+        print(f'Received written feelings: {written_feelings}')
         return {'message': 'Good shit!'}
     except Exception as e:
         print(f'Error processing feelings: {str(e)}')
