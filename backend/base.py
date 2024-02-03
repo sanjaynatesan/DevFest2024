@@ -1,6 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import algorithms
+import os
+import psycopg2
 
 api = Flask(__name__)
 CORS(api)
@@ -17,14 +19,55 @@ REDIRECT URI: http://localhost:5000/callback
 '''
 
 
-@api.route('/stim')
-def my_profile():
+def get_database_connection():
+    conn = psycopg2.connect(
+        host="34.30.54.122",
+        database="user-songs",
+        user='kent',
+        password='cookiecrew'
+    )
+    return conn
+
+@api.route('/songemotion', methods=['POST', 'GET'])
+def song_emotion():
+
     response_body = {
         "response": "Dawg I'm stimming"
     }
 
     return response_body
 
+
+@api.route('/adduser', methods=['POST', 'GET'])
+def add_user():
+    print("Reached start")
+    conn = get_database_connection()
+    print("Connected")
+
+    cur = conn.cursor()
+    print("Cur established")
+
+    
+    data = request.get_json(force=True)
+    print(data)
+    username = data['username']
+    display_name = data['display_name']
+
+    # Check if the username already exists in the user_info table
+    cur.execute("SELECT username FROM user_info WHERE username = %s", (username,))
+    existing_username = cur.fetchone()
+
+    if existing_username:
+        cur.close()
+        conn.close()
+        return "Username already exists", 200
+    
+    cur.execute("INSERT INTO user_info (username, display_name) VALUES (%s, %s)", (username, display_name))
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    return "User added", 200
 
 @api.route('/recent', methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True, origins='http://127.0.0.1:3000')

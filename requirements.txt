@@ -24,3 +24,5 @@ protobuf
 six
 
 mysql-connector-python==8.3.0
+
+psychopg2==2.9.9
