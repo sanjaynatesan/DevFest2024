@@ -11,8 +11,8 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import pairwise_distances
 
 # Declare the credentials
-cid = '8dca5b067d01447db4b574af663fd0be' # 412a5c5cfedd4d15b71c65b4610ad586
-secret = '0b2741bd6f4947b5b911083c846da214' # 0d20d831e837457abf4cf32276e2a940
+cid = '516b7b9290614e308a2045dcadea221d' #'8dca5b067d01447db4b574af663fd0be' # 412a5c5cfedd4d15b71c65b4610ad586
+secret = 'fd7eb0b96d234776964a531e4c3b48bd' #'0b2741bd6f4947b5b911083c846da214' # 0d20d831e837457abf4cf32276e2a940
 redirect_uri='http://127.0.0.1:7777/callback'
 username = '9tlgjm5tb8iivhwr525qopqu7' # 11153510588
 
@@ -26,6 +26,19 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cid,
                                                 client_secret=secret,
                                                 redirect_uri=redirect_uri,
                                                 scope=scope))
+
+def test():
+
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cid,
+                                                client_secret=secret,
+                                                redirect_uri=redirect_uri,
+                                                scope=scope))
+    
+    results = sp.current_user_recently_played()
+    print(results)
+
+    artist = sp.artist('spotify:artist:0TnOYISbd1XYRBk9myaseg')
+    print(artist)
 
 def rselect():
     # Get the most recently played tracks
