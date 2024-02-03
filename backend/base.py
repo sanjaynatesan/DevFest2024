@@ -91,6 +91,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "X (feat. Maluma & Ozuna) - Remix",
+            "image": "https://i.scdn.co/image/ab67616d0000b27343ec4e5bf12be32fc0beaac2",
             "uri": "spotify:track:6JjPBQfI2Y8nIjnm65X6Pw",
             "weight": 5.158460415146735
         },
@@ -103,6 +104,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Bebé",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:0ulsRBiciReng91DhfVT9D",
             "weight": 4.720726046469784
         },
@@ -115,6 +117,7 @@ def dummy():
                 "zhongguo feng"
             ],
             "title": "蒲公英的約定",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:3JovAXFjc98TkksMfeyIMh",
             "weight": 2.884160497896886
         },
@@ -127,6 +130,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Cosas de la Peda (feat. Gabito Ballesteros)",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:1RzNRKntEk0KiQE4NFBKmc",
             "weight": 5.28964254738048
         },
@@ -139,6 +143,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Mi Santa (feat. Tomatito)",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:4EbAftNM732UGLF8gmIIsX",
             "weight": 5.28964254738048
         },
@@ -151,6 +156,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Reggaetón Lento (Bailemos)",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:3AEZUABDXNtecAOSC1qTfo",
             "weight": 4.556474012983767
         },
@@ -163,6 +169,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Egoísta",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:4X3CV9rXo3hQrkb0fzRAux",
             "weight": 4.720726046469784
         },
@@ -175,6 +182,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Eres Mía",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
             "weight": 5.28964254738048
         },
@@ -187,6 +195,7 @@ def dummy():
                 "urbano latino"
             ],
             "title": "Amor Enterrado",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:3cdTfwai1PtCGOd9DIBMNU",
             "weight": 5.28964254738048
         },
@@ -197,6 +206,7 @@ def dummy():
                 "bachata dominicana"
             ],
             "title": "Es Tan Difícil",
+            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
             "uri": "spotify:track:0Ihu6hcj4hrWVz22W3G10P",
             "weight": 2.5905292832732236
         }

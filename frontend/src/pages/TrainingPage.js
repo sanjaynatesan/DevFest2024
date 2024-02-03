@@ -31,9 +31,20 @@ function TrainingPage() {
                 Let's talk about your music. Here is a song you played recently:
             </div>
             <div>
-                <div className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">Song Title</div>
-                <div className="mx-60 text-center text-xl sm:text-xl font-mono">Artist</div>
-                <div className="mx-60 text-center text-xl sm:text-xl font-mono">Album</div>
+                <img
+                    src={recentSongsLoaded && recentSongs ? recentSongs[0].image : "#"} // Replace 'image' with the actual property name in your API response
+                    alt="Song Cover"
+                    className="mx-auto mt-4 w-32 h-32 rounded-md"
+                />
+                {/*<div className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">Song Title</div>*/}
+                {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Artist</div>*/}
+                {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Album</div>*/}
+                <div
+                    className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[0].title : "Song Title"}</div>
+                <div
+                    className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[0].artist : "Artist"}</div>
+                <div className="mx-60 text-center text-xl sm:text-xl font-mono">"Album"</div>
+
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                 How does this song make you feel?
