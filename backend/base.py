@@ -486,7 +486,6 @@ def retrain():
 def recommendation():
     data = request.get_json(force=True)
 
-    inputType = data.get('inputType', 0) # 1
     username = data.get('username', None) # '9tlgjm5tb8iivhwr525qopqu7'
     # print(f'Received response: {response}')
     # print(f'Received input type: {inputType}')
