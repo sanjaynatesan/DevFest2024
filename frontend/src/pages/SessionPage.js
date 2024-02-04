@@ -4,6 +4,141 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import sessionpagebackground from "../assets/sessionpagebackground.svg";
 
 function SessionPage() {
+    // TODO: Replace dummy data
+    const dummyData = [
+            {
+                "artist": "Nicky Jam",
+                "genres": [
+                    "latin hip hop",
+                    "reggaeton",
+                    "trap latino",
+                    "urbano latino"
+                ],
+                "title": "X (feat. Maluma & Ozuna) - Remix",
+                "image": "https://i.scdn.co/image/ab67616d0000b27343ec4e5bf12be32fc0beaac2",
+                "uri": "spotify:track:6JjPBQfI2Y8nIjnm65X6Pw",
+                "weight": 5.158460415146735
+            },
+            {
+                "artist": "Ozuna",
+                "genres": [
+                    "puerto rican pop",
+                    "reggaeton",
+                    "trap latino",
+                    "urbano latino"
+                ],
+                "title": "Bebé",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:0ulsRBiciReng91DhfVT9D",
+                "weight": 4.720726046469784
+            },
+            {
+                "artist": "Jay Chou",
+                "genres": [
+                    "c-pop",
+                    "mandopop",
+                    "taiwan pop",
+                    "zhongguo feng"
+                ],
+                "title": "蒲公英的約定",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:3JovAXFjc98TkksMfeyIMh",
+                "weight": 2.884160497896886
+            },
+            {
+                "artist": "Prince Royce",
+                "genres": [
+                    "bachata",
+                    "latin hip hop",
+                    "latin pop",
+                    "urbano latino"
+                ],
+                "title": "Cosas de la Peda (feat. Gabito Ballesteros)",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:1RzNRKntEk0KiQE4NFBKmc",
+                "weight": 5.28964254738048
+            },
+            {
+                "artist": "Romeo Santos",
+                "genres": [
+                    "bachata",
+                    "latin hip hop",
+                    "latin pop",
+                    "urbano latino"
+                ],
+                "title": "Mi Santa (feat. Tomatito)",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:4EbAftNM732UGLF8gmIIsX",
+                "weight": 5.28964254738048
+            },
+            {
+                "artist": "CNCO",
+                "genres": [
+                    "boy band",
+                    "latin pop",
+                    "reggaeton",
+                    "urbano latino"
+                ],
+                "title": "Reggaetón Lento (Bailemos)",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:3AEZUABDXNtecAOSC1qTfo",
+                "weight": 4.556474012983767
+            },
+            {
+                "artist": "Ozuna",
+                "genres": [
+                    "puerto rican pop",
+                    "reggaeton",
+                    "trap latino",
+                    "urbano latino"
+                ],
+                "title": "Egoísta",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:4X3CV9rXo3hQrkb0fzRAux",
+                "weight": 4.720726046469784
+            },
+            {
+                "artist": "Romeo Santos",
+                "genres": [
+                    "bachata",
+                    "latin hip hop",
+                    "latin pop",
+                    "urbano latino"
+                ],
+                "title": "Eres Mía",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
+                "weight": 5.28964254738048
+            },
+            {
+                "artist": "Romeo Santos",
+                "genres": [
+                    "bachata",
+                    "latin hip hop",
+                    "latin pop",
+                    "urbano latino"
+                ],
+                "title": "Amor Enterrado",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:3cdTfwai1PtCGOd9DIBMNU",
+                "weight": 5.28964254738048
+            },
+            {
+                "artist": "Zacarias Ferreira",
+                "genres": [
+                    "bachata",
+                    "bachata dominicana"
+                ],
+                "title": "Es Tan Difícil",
+                "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
+                "uri": "spotify:track:0Ihu6hcj4hrWVz22W3G10P",
+                "weight": 2.5905292832732236
+            }
+        ]
+    const [responses, setResponses] = useState([]);
+    const [songCount, setSongCount] = useState(0);
+    const [currentSongIndex, setCurrentSongIndex] = useState(0);
+    const currentSong = dummyData[currentSongIndex];
     const [isOpen, setIsOpen] = useState(false);
     const [submit, setSubmit] = useState(false);
     const [review, setReview] = useState('');
@@ -38,6 +173,17 @@ function SessionPage() {
 
         // Set all zones to not dropped and not hovering
         setIsHovering({ zone1: false, zone2: false, zone3: false, zone4: false});
+
+        // TODO: Redirect to stats page to add the playlist
+        setSongCount(songCount + 1);
+        if(songCount === 50){
+            goHome();
+        }
+
+        if(choice === "Open in Spotify" || choice === "Add to Library"){
+            console.log(currentSong.title)
+            addResponse(currentSong.title);
+        }
     };
 
 
@@ -58,6 +204,14 @@ function SessionPage() {
         setZone2Hover(true);
         setZone3Hover(true);
         setZone4Hover(true);
+        if (currentSongIndex < dummyData.length - 1) {
+            setCurrentSongIndex(currentSongIndex + 1);
+            if(songCount === 0){
+                setCurrentSongIndex(0)
+            }
+        } else {
+            goHome();
+        }
 
     }
 
@@ -86,7 +240,13 @@ function SessionPage() {
             setZone2Hover(false);
             setZone3Hover(false);
         }
+    }
 
+    function addResponse(song) {
+        setResponses([...responses, song]);
+        for (let i = 0; i < responses.length; i++) {
+            console.log(responses[i]);
+        }
     }
 
 
@@ -100,10 +260,14 @@ function SessionPage() {
                         Take a Listen to the Following Song:
                     </div>
                     <div className="flex justify-center items-center py-18 gap-x-8">
-                        <div className="text-center">
-                            <div className="text-xl sm:text-xl font-mono">Song Title</div>
-                            <div className="text-xl sm:text-xl font-mono">Artist</div>
-                            <div className="text-xl sm:text-xl font-mono">Album</div>
+                        <div className="flex flex-col items-center">
+                            <div className="w-24 h-24 object-cover">
+                                <img src={currentSong.image} alt="Album Art" className="w-full h-full"/>
+                            </div>
+                            <div className="flex flex-col items-center mt-2"> {/* Add margin-top if needed */}
+                                <div className="text-lg font-mono text-center">{currentSong.title}</div>
+                                <div className="text-sm font-mono text-center">{currentSong.artist}</div>
+                            </div>
                         </div>
                         <div className="flex justify-center items-center gap-x-4">
                             <button onClick={handleToggle} className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50 flex items-center justify-center">
@@ -136,7 +300,9 @@ function SessionPage() {
                                         Now Playing:
                                     </Box>
                                     <Box as="span" fontSize="md">
-                                        Song Title - Artist Name
+                                        <div className="text-md font-mono">{currentSong.title}</div>
+                                        <div className="text-sm font-mono">{currentSong.artist}</div>
+
                                     </Box>
                                 </Box>
                                 {/* Placeholder for additional content or controls */}
@@ -164,18 +330,23 @@ function SessionPage() {
                             <div className="flex flex-wrap items-center justify-center h-screen">
                                 <div className="flex flex-col justify-center items-center w-full">
 
-                                    <div className="text-center text-md font-mono mb-4">
+                                    <div className="text-center text-md font-mono my-4">
                                         How did you feel about that song? (Drag and Drop)
                                     </div>
-                                    <div className="w-min text-center" draggable={true}
-                                         onDragStart={(e) => handleDragStart(e, 'Your Draggable Content')}>
-                                        <div className="text-center">
-                                            <img src="../assets/spotify-logo-black.svg" alt="Spotify Logo" />
-                                            <div className="text-sm font-mono">Song Title</div>
-                                            <div className="text-sm font-mono">Artist</div>
+                                    <div className="flex flex-col items-center">
+                                        <div
+                                            className="w-24 h-24 object-cover"
+                                            draggable={true}
+                                            onDragStart={(e) => handleDragStart(e, currentSong.uri)}>
+                                            <img src={currentSong.image} alt="Album Art" className="w-full h-full"/>
+                                        </div>
+                                        <div className="flex flex-col items-center mt-2"> {/* Add margin-top if needed */}
+                                            <div className="text-lg font-mono text-center">{currentSong.title}</div>
+                                            <div className="text-sm font-mono text-center">{currentSong.artist}</div>
                                         </div>
                                     </div>
-                                    {submit && <div className="text-center text-md font-mono mb-4">
+
+                                    {submit && <div className="text-center text-md font-mono">
                                         {review}
                                     </div>}
                                     <div className="flex flex-wrap items-center justify-center">
@@ -299,10 +470,6 @@ function SessionPage() {
                                         </Container>
                                     </SlideFade>
                                 </div>
-
-
-
-
                             </div>
 
                         )}
