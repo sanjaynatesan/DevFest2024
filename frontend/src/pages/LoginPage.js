@@ -4,8 +4,8 @@ import backgroundwave from '../assets/backgroundwave.svg';
 import spotifylogo from "../assets/spotify-logo-black.svg";
 
 function LoginPage() {
-    const CLIENT_ID = "8dca5b067d01447db4b574af663fd0be";
-    const REDIRECT_URI = "http://localhost:3000/callback";
+    const CLIENT_ID = "516b7b9290614e308a2045dcadea221d";
+    const REDIRECT_URI = "http://localhost:3000/login";
     const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
     const RESPONSE_TYPE = "token";
 
@@ -49,47 +49,25 @@ function LoginPage() {
     // };
 
     useEffect(() => {
-        console.log("Hi");
+
+        const hash = window.location.hash;
+        let token = window.localStorage.getItem("token")
+
+        console.log(token);
+        console.log(hash); 
+
+        if(!token && hash){
+            token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+
+            console.log(token);
+
+            window.location.hash = "";
+            window.localStorage.setItem("token", token);
+            setToken(token);
+        }
+
         const handleSpotifyCallback = async () => {
-            const hash = window.location.hash;
-            // let accessToken = window.localStorage.getItem("token");
-            let accessToken;
-
-            console.log(accessToken);
-            if (!accessToken && hash) {
-                accessToken = hash
-                    .substring(1)
-                    .split("&")
-                    .find((elem) => elem.startsWith("access_token"))
-                    .split("=")[1];
-
-                window.location.hash = "";
-                window.localStorage.setItem("token", accessToken);
-
-                // Call the Flask endpoint to handle user login
-
-            }
-            // try {
-            //     console.log(JSON.stringify({ access_token: accessToken }))
-            //     const response = await fetch("/callback", {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify({ access_token: accessToken }),
-            //     });
-            //     console.log(response);
-            //
-            //     if (response.ok) {
-            //         console.log("User authenticated and added to the database successfully");
-            //     } else {
-            //         console.error("Failed to authenticate user");
-            //     }
-            // } catch (error) {
-            //     console.error("Error:", error);
-            // }
-            //
-            // setToken(accessToken);
+            let accessToken = window.localStorage.getItem("token");
             try {
                 const response = await fetch("/callback", {
                     method: "POST",
@@ -100,7 +78,7 @@ function LoginPage() {
                 });
 
                 if (response.ok) {
-                    console.log("User authenticated and added to the database successfully");
+                    console.log("Logged In!");
                     const userInfo = await response.json();
                     setUserInfo(userInfo);
                     console.log(userInfo);
