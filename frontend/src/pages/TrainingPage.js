@@ -103,8 +103,12 @@ function TrainingPage() {
                     className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
                     className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
-                <div className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].album : "Album"}</div>
-
+                
+                {recentSongs[currentSongIndex].title === recentSongs[currentSongIndex].album ? (
+                    <span></span>
+                ) : (
+                    <div className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].album : "Album"}</div>
+                )}
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                 How does this song make you feel?
