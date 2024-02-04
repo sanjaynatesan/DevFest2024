@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Box, Container, Fade, SlideFade} from "@chakra-ui/react";
 import { FaPause, FaPlay } from "react-icons/fa";
+import sessionpagebackground from "../assets/sessionpagebackground.svg";
 
 function SessionPage() {
     const [isOpen, setIsOpen] = useState(false);
@@ -91,9 +92,11 @@ function SessionPage() {
 
     return (
         <div>
+            <img src={sessionpagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
+                style={{"zIndex": -1}}/>
             {!submit && <div>
                 <Fade in={!submit} transition={{exit: {duration: .25}, enter: {duration: 1}}}>
-                    <div className="mt-20 text-center text-xl sm:text-2xl font-mono mb-20">
+                    <div className="mt-20 text-center text-xl sm:text-2xl font-mono mb-20 text-black">
                         Take a Listen to the Following Song:
                     </div>
                     <div className="flex justify-center items-center py-18 gap-x-8">
