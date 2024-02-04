@@ -473,9 +473,14 @@ def retrain():
     conn = get_database_connection()
     curr = conn.cursor()
 
-    curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
-                 (username, response, reaction, song_uri))
-    conn.commit()
+    curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, response, song_uri))
+    count = curr.fetchone()[0]
+
+    if count == 0:
+        # If no such entry exists, insert a new row
+        curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                    (username, response, reaction, song_uri))
+        conn.commit()
 
     curr.close()
     conn.close()
@@ -529,9 +534,15 @@ def recommendation():
 
     return to_return
 
-
-
-
+@api.route('/enrich', methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
+def enrich_playlist(sp, username, playlist_id, playlist_tracks):
+    index = 0
+    results = []
+    
+    while index < len(playlist_tracks):
+        results += sp.user_playlist_add_tracks(username, playlist_id, tracks = playlist_tracks[index:index + 100])
+        index += 100
 
 if __name__ == '__main__':
     api.run(debug=True, host='127.0.0.1', port=5000)
