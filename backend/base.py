@@ -333,24 +333,27 @@ def submit_feelings():
         print(list_emotions)
 
         written_analysis = []
-        
+
         if len(written_feelings) > 0:
-            written_analysis = ''.join(gemini.training_vertex(combined_emotions, written_feelings).splitlines()[-1:])
-            written_analysis = written_analysis.lower()
-            written_analysis = list(set(re.split(r',\s|\s|,', written_analysis)))
-            written_analysis = written_analysis[-3:]
-            print(f'Written analysis: {written_analysis}')
+            try:
+                written_analysis = ''.join(gemini.training_vertex(combined_emotions, written_feelings).splitlines()[-1:])
+                written_analysis = written_analysis.lower()
+                written_analysis = list(set(re.split(r',\s|\s|,', written_analysis)))
+                written_analysis = written_analysis[-3:]
+                print(f'Written analysis: {written_analysis}')
 
-            for emotion in written_analysis:
-                if emotion != "":
-                    curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
-                    count = curr.fetchone()[0]
+                for emotion in written_analysis:
+                    if emotion != "":
+                        curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
+                        count = curr.fetchone()[0]
 
-                    if count == 0:
-                        # If no such entry exists, insert a new row
-                        curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
-                                     (username, emotion, True, song_uri))
-            conn.commit()
+                        if count == 0:
+                            # If no such entry exists, insert a new row
+                            curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                                        (username, emotion, True, song_uri))
+                conn.commit()
+            except Exception as e:
+                written_analysis = []
         for emotion in feelings:
             if emotion != "":
                 curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
