@@ -300,10 +300,12 @@ def submit_feelings():
         data = request.get_json()
         feelings = data.get('feelings', [])
         written_feelings = data.get('written_feelings', None)
+        not_feelings = data.get('not_feelings', [])
         username = data.get('username', None)
         print(f'Received username: {username}')
         print(f'Received feelings: {feelings}')
         print(f'Received written feelings: {written_feelings}')
+        print(f'Not feelings: {not_feelings}')
         if len(written_feelings) > 10:
             written_analysis = ''.join(gemini.training_vertex("sad, happy, jaded, excited, faithful, happy, wistful, salacious", written_feelings).splitlines()[-1:])
             written_analysis = written_analysis.lower()

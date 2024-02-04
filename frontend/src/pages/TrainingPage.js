@@ -10,7 +10,7 @@ function TrainingPage() {
     const [writtenFeelings, setWrittenFeelings] = useState('');
     const [displayName, setDisplayName] = useState("User");
 
-    const feelings = ["Jaded", "Happy", "Stressed", "Wistful", "Faithful", "Salacious"];
+    const feelings = ["jaded", "happy", "stressed", "wistful", "faithful", "salacious"];
 
     useEffect(() => {
         // Retrieve display_name from local storage
