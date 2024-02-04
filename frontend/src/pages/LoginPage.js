@@ -120,16 +120,26 @@ function LoginPage() {
     return (
         <div>
             <img src={backgroundwave} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
-                style={{zIndex: -1}}/>
-            <div className="mt-48 text-center text-6xl sm:text-8xl font-mono text-white">Polyphony</div>
+                style={{"zIndex": -1, 
+                    "backgroundSize": "cover",
+                    "webkitAnimation": "slidein 100s",
+                    "animation": "slidein 100s",
+                    "webkitAnimationFillMode": "forwards",
+                    "animationFillMode": "forwards",
+                    "webkitAnimationIterationCount": "infinite",
+                    "animationIterationCount": "infinite",
+                    "webkitAnimationDirection": "alternate",
+                    "animationDirection": "alternate"              
+            }}/>
+            <div className="mt-48 text-center text-7xl sm:text-9xl font-outfit text-white">Polyphony</div>
             <div className="my-20 text-center">
                 <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>
-                    <button className="px-4 py-3 text-center border-white border-4 font-mono rounded-3xl text-white hover:bg-gray-50">
+                    <button className="px-4 py-3 text-center rounded-3xl text-ourPurple bg-white hover:bg-gray-200">
                         <div className="flex flex-row">
                             <div className="w-1/6">
                                 <img src={spotifylogo} alt="spotify"/>
                             </div>
-                            <div className="w-5/6 py-2 pl-6 pr-12 text-sm sm:text-lg whitespace-nowrap">
+                            <div className="w-5/6 py-2 pl-6 pr-12 text-sm sm:text-lg font-sora whitespace-nowrap">
                                 Login with Spotify
                             </div>
                         </div>
