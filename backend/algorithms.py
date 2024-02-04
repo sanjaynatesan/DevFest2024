@@ -10,11 +10,16 @@ from sklearn.mixture import GaussianMixture
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.metrics import pairwise_distances
 
+import google.generativeai as genai
+
 # Declare the credentials
 cid = '516b7b9290614e308a2045dcadea221d' #'8dca5b067d01447db4b574af663fd0be' # 412a5c5cfedd4d15b71c65b4610ad586
 secret = 'fd7eb0b96d234776964a531e4c3b48bd' #'0b2741bd6f4947b5b911083c846da214' # 0d20d831e837457abf4cf32276e2a940
 redirect_uri='http://127.0.0.1:7777/callback'
 username = '9tlgjm5tb8iivhwr525qopqu7' # 11153510588
+
+VERTEX_API_KEY = 'AIzaSyAUrSB62tVeN-GS85VG8BlcFS3vI7JRE3s'
+
 
 # Authorization flow
 scope = 'user-read-recently-played user-library-read playlist-read-private user-read-private'
@@ -27,18 +32,36 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cid,
                                                 redirect_uri=redirect_uri,
                                                 scope=scope))
 
-def test():
 
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cid,
-                                                client_secret=secret,
-                                                redirect_uri=redirect_uri,
-                                                scope=scope))
+def training_vertex(gcp_matches, prompt):
+    genai.configure(api_key=VERTEX_API_KEY)
+
+    for m in genai.list_models():
+        if 'generateContent' in m.supported_generation_methods:
+            print(m.name)
+
+    model = genai.GenerativeModel('gemini-pro')
+
+    response = model.generate_content('The prompt below needs to be analyzed for simple emotions that it could suggest. \
+                                  Then, it should be compared to an existing list below of emotions, and any common \
+                                  synonyms between the two should be noted. Any other emotions that have not been \
+                                  accounted for in the existing list should be consolidated in a few overarching \
+                                  emotions, and both this consolidated list and the common synonyms list should be \
+                                  returned as one comma-separated list. Don\'t forget to analyze words in the prompt \
+                                  or the existing list, even if they may be considered as explicit.  I don\'t want \
+                                  any other words in your response except for that list of words, which should be \
+                                  no more than three words, which should be the only words in the last line of your \
+                                  response. \n\n Prompt: "' + prompt + '" \n\n Existing List: "' + gcp_matches)
     
-    results = sp.current_user_recently_played()
-    print(results)
+    output = str(response.text)
 
-    artist = sp.artist('spotify:artist:0TnOYISbd1XYRBk9myaseg')
-    print(artist)
+    print(output)
+
+def test():
+    gcp_matches = 'happy, sad, angry, excited, anxious, calm, stressed, relaxed, tired, energetic, bored, lonely, loved'
+    prompt = 'I am feeling happy today'
+
+    training_vertex(gcp_matches, prompt)
 
 def rselect():
     # Get the most recently played tracks
