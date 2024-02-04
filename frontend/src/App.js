@@ -8,6 +8,7 @@ import TalkToUsPage from "./pages/TalkToUsPage";
 import TalkToUsResultPage from "./pages/TalkToUsResultPage";
 import SessionPage from "./pages/SessionPage";
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/session" exact element={<SessionPage />} />
           <Route path="/talk-to-us" exact element={<TalkToUsPage />} />
           <Route path="/talk-to-us-result" exact element={<TalkToUsResultPage />} />
+          <Route path="/about" exact element={<AboutPage/>}/>
         </Routes>
       </Router>  
     </div>
