@@ -2,6 +2,7 @@ import psycopg2
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import requests
+import sys
 
 import spotipy
 # import spotipy.util as util
@@ -302,16 +303,78 @@ def submit_feelings():
         written_feelings = data.get('written_feelings', None)
         not_feelings = data.get('not_feelings', [])
         username = data.get('username', None)
+        song_uri = data.get('song_uri', None)
         print(f'Received username: {username}')
         print(f'Received feelings: {feelings}')
         print(f'Received written feelings: {written_feelings}')
         print(f'Not feelings: {not_feelings}')
-        if len(written_feelings) > 10:
-            written_analysis = ''.join(gemini.training_vertex("sad, happy, jaded, excited, faithful, happy, wistful, salacious", written_feelings).splitlines()[-1:])
+
+        conn = get_database_connection()
+        curr = conn.cursor()
+
+        curr.execute("SELECT emotion FROM user_songs WHERE username = %s", (username,))
+        emotions_result = curr.fetchall()
+
+        # Extract emotions from the result and concatenate into a string
+        emotions_string = ', '.join(emotion[0] for emotion in emotions_result)
+
+        print(f'Emotions from user_songs: {emotions_string}')
+
+        unique_emotions = ', '.join(set(re.split(r',\s|\s|,', emotions_string)))
+        print(f'Unique Emotions: {unique_emotions}')
+
+        predefined_emotions = "jaded, excited, faithful, happy, wistful, salacious"
+
+        # Take the set union of unique emotions and predefined emotions
+        combined_emotions = ', '.join(set(re.split(r',\s|\s|,', unique_emotions)) | set(re.split(r',\s|\s|,', predefined_emotions)))
+        print(f'Combined Emotions: {combined_emotions}')
+
+        list_emotions = [emotion.strip() for emotion in combined_emotions.split(",")]
+        print(list_emotions)
+
+        written_analysis = []
+        
+        if len(written_feelings) > 0:
+            written_analysis = ''.join(gemini.training_vertex(combined_emotions, written_feelings).splitlines()[-1:])
             written_analysis = written_analysis.lower()
             written_analysis = list(set(re.split(r',\s|\s|,', written_analysis)))
             written_analysis = written_analysis[-3:]
             print(f'Written analysis: {written_analysis}')
+
+            for emotion in written_analysis:
+                if emotion != "":
+                    curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
+                    count = curr.fetchone()[0]
+
+                    if count == 0:
+                        # If no such entry exists, insert a new row
+                        curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                                     (username, emotion, True, song_uri))
+            conn.commit()
+        for emotion in feelings:
+            if emotion != "":
+                curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
+                count = curr.fetchone()[0]
+
+                if count == 0:
+                    # If no such entry exists, insert a new row
+                    curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                                 (username, emotion, True, song_uri))
+                    
+        for emotion in not_feelings:
+            if emotion != "":
+                if emotion not in written_analysis:
+                    curr.execute("SELECT COUNT(*) FROM user_songs WHERE username = %s AND emotion = %s AND song_uri = %s", (username, emotion, song_uri))
+                    count = curr.fetchone()[0]
+
+                    if count == 0:
+                        # If no such entry exists, insert a new row
+                        curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                                    (username, emotion, False, song_uri))
+        conn.commit()
+        sys.stdout.flush()
+        curr.close()
+        conn.close()
         return {'message': 'Good shit!'}
     except Exception as e:
         print(f'Error processing feelings: {str(e)}')
