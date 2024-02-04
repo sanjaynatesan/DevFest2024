@@ -36,7 +36,7 @@ function SessionStartPage() {
                     onClick={startSession}>
                         <div className="flex flex-row">
                             <div className="w-52 p-2 whitespace-nowrap">
-                                Find New Music
+                                Find new music
                             </div>
                         </div>
                     </button>   
@@ -49,7 +49,7 @@ function SessionStartPage() {
                         <div className="flex flex-row">
                             <div className="w-52 p-2 whitespace-nowrap"
                             onClick={goToTalk}>
-                                Talk to Us
+                                Talk to us
                             </div>
                         </div>
                     </button>   
@@ -57,14 +57,14 @@ function SessionStartPage() {
             </div>
 
             <Link to="/home">
-                    <div className="text-center font-sora text-lg fixed top-0 left-0 p-4 ml-8 mt-8">
-                        <button className="px-5 py-3 text-center rounded-2xl text-ourPurple bg-white hover:bg-gray-200">
-                            <div className="flex flex-row">
-                            ← Home
-                            </div>
-                        </button>
-                    </div>
-                </Link>
+                <div className="text-center font-sora text-lg fixed top-0 left-0 p-4 ml-8 mt-8">
+                    <button className="px-5 py-3 text-center rounded-2xl text-ourPurple bg-white hover:bg-gray-200">
+                        <div className="flex flex-row">
+                        ← Home
+                        </div>
+                    </button>
+                </div>
+            </Link>
         </div>
     );
 }

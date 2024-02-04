@@ -133,7 +133,7 @@ function TrainingPage() {
                 How do you feel when listening to this song?
             </div>
 
-            <div className="mt-10 mx-64 grid grid-cols-2 gap-4 font-sora text-xl text-gray-800 font-bold">
+            <div className="mt-10 mx-64 grid grid-cols-2 gap-4 font-sora text-lg text-gray-800 font-normal">
                 <div
                     className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Jaded") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Jaded")}
