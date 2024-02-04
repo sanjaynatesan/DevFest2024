@@ -54,6 +54,16 @@ function TrainingPage() {
     }
 
     async function handleSubmit() {
+        // First, convert all feelings to lowercase
+        let feelings1 = [...selectedFeelings]; 
+        let feelings2 = writtenFeelings;
+        for (let i = 0; i < feelings1.length; i++) {
+            if (typeof feelings1[i] === 'string') {
+              feelings1[i] = feelings1[i].toLowerCase();
+            }
+        }
+        feelings2 = feelings2.toLowerCase();
+
         try {
             const response = await fetch('http://127.0.0.1:5000/submit', {
                 method: 'POST',
@@ -61,8 +71,9 @@ function TrainingPage() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ 
-                    feelings: selectedFeelings,
-                    written_feelings: writtenFeelings,
+                    username: window.localStorage.getItem("username"),
+                    feelings: feelings1,
+                    written_feelings: feelings2,
                  }),
             });
 
@@ -80,9 +91,6 @@ function TrainingPage() {
             console.error('Error submitting feelings:', error);
         }
     }
-
-
-
 
     return(
         <div>
