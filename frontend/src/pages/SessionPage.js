@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Box, Container, Fade, SlideFade} from "@chakra-ui/react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import sessionpagebackground from "../assets/sessionpagebackground.svg";
+import {useLocation} from "react-router";
 
 function SessionPage() {
     // TODO: Replace dummy data
@@ -149,6 +150,8 @@ function SessionPage() {
     const [zone2Hover, setZone2Hover] = useState(false);
     const [zone3Hover, setZone3Hover] = useState(false);
     const [zone4Hover, setZone4Hover] = useState(false);
+    const location = useLocation();
+    const { message } = location.state || {};
 
     useEffect(() => {
         // Disable scrolling when the page loads
@@ -175,15 +178,15 @@ function SessionPage() {
         // Set all zones to not dropped and not hovering
         setIsHovering({ zone1: false, zone2: false, zone3: false, zone4: false});
 
-        // TODO: Redirect to stats page to add the playlist
-        setSongCount(songCount + 1);
-        if(songCount === 50){
-            goHome();
-        }
 
         if(choice === "Open in Spotify" || choice === "Add to Library"){
             console.log(currentSong.title)
             addResponse(currentSong.title);
+            // TODO: Redirect to stats page to add the playlist
+            setSongCount(songCount + 1);
+            if(songCount === 50){
+                goHome();
+            }
         }
     };
 

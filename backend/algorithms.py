@@ -42,7 +42,7 @@ def rselect():
         # artist = sp.artist(track["track"]["artists"][0]["external_urls"]["spotify"])
     # print(artists)
     for index, artist in enumerate(artists):
-        print(index, artist)
+        # print(index, artist)
         track_info = {
             'title': results['items'][index]['track']['name'],
             'artist':  results['items'][index]["track"]["artists"][0]['name'],
@@ -83,33 +83,45 @@ def rselect():
             break
         count += 1
 
-    # Display the selected songs
-    for song in selected_songs:
-        print(f'Title: {song["title"]}, Genres: {", ".join(song["genres"])}, Weight: {song["weight"]}')
+    # # Display the selected songs
+    # for song in selected_songs:
+    #     print(f'Title: {song["title"]}, Genres: {", ".join(song["genres"])}, Weight: {song["weight"]}')
 
     return selected_songs
 
-def recalg():
-    selected_songs = rselect()
+def recalg(tuples):
+    track_ids = []
+    y = []
 
-    data = np.array(selected_songs)
+    for song_uri, reaction in tuples:
+        if song_uri:
+            track_ids.append(song_uri.split(':')[-1])
+            y.append(reaction)
+
+    data = np.array(track_ids)
 
     # data = np.array(selected_songs)
 
+    # # data = np.array(selected_songs)
+
     feature_vectors = []
 
-    for song in selected_songs:
-        track_id = song['uri'].split(':')[-1]
-        track_info = sp.audio_features(track_id)
+    # track_ids = []
+    # for song in selected_songs:
+    #     track_id = song['uri'].split(':')[-1]
+    #     track_ids.append(track_id)
 
-        energy = track_info[0]['energy']
-        acousticness = track_info[0]['acousticness']
-        danceability = track_info[0]['danceability']
-        instrumentalness = track_info[0]['instrumentalness']
-        liveness = track_info[0]['liveness']
-        loudness = track_info[0]['loudness']
-        tempo = track_info[0]['tempo']
-        valence = track_info[0]['valence']
+    track_infos = sp.audio_features(track_ids)
+
+    for index in range(len(track_infos)):
+        energy = track_infos[index]['energy']
+        acousticness = track_infos[index]['acousticness']
+        danceability = track_infos[index]['danceability']
+        instrumentalness = track_infos[index]['instrumentalness']
+        liveness = track_infos[index]['liveness']
+        loudness = track_infos[index]['loudness']
+        tempo = track_infos[index]['tempo']
+        valence = track_infos[index]['valence']
         
         feature_vector = np.array([energy, acousticness, danceability, instrumentalness, liveness, loudness, tempo, valence])
 
@@ -122,10 +134,10 @@ def recalg():
     ####TESTING####
     X = feature_matrix
 
-    y = []
-    for i in range(10):
-        new_val = input()
-        y.append(int(new_val))
+    # y = []
+    # for i in range(10):
+    #     new_val = input()
+    #     y.append(int(new_val))
     y = np.array(y)
 
     # y = np.array([1, 1, 1, 1, 1, -1, -1, -1, -1, -1])
@@ -153,7 +165,7 @@ def recalg():
             distances_to_positive = pairwise_distances(random_feature_sets[i].reshape(1, -1), X[y == 1])
             min_distance_to_positive = np.min(distances_to_positive)
             
-            distances_to_negative = pairwise_distances(random_feature_sets[i].reshape(1, -1), X[y == -1])
+            distances_to_negative = pairwise_distances(random_feature_sets[i].reshape(1, -1), X[y == 0])
             min_distance_to_negative = np.min(distances_to_negative)
             
             if min_distance_to_positive < min_distance and min_distance_to_positive < min_distance_to_negative:
@@ -176,31 +188,57 @@ def recalg():
     random_uris = []
 
     for track in random_tracks:
-        random_uris.append(track['uri'])
+        # print(track)
+        random_uris.append(track)
 
     # print(random_tracks)
     # print(random_uris)
 
     return closest_random, random_uris
 
-def get_recs():
-    starting, random_uris = recalg()
+def get_recs(tuples):
+    starting, random_uris = recalg(tuples)
 
-    for song in random_uris:
-        print(f'URI: {song}')
+    stats = 0.1
+
+    # for song in random_uris:
+    #     print(f'URI: {song}')
         
-    recommended_songs = sp.recommendations(min_energy=starting[0]-0.15, max_energy=starting[0]+0.15, 
-                                           min_acousticness=starting[1]-0.15, max_acousticness=starting[1]+0.15, 
-                                           min_danceability=starting[2]-0.15, max_danceability=starting[2]+0.15, 
-                                           min_instrumentalness=starting[3]-0.15, max_instrumentalness=starting[3]+0.15, 
-                                           min_liveness=starting[4]-0.15, max_liveness=starting[4]+0.15, 
-                                           min_loudness=starting[5]-0.15, max_loudness=starting[5]+0.15,
-                                           min_tempo=starting[6]-10, max_tempo=starting[6]+10,
-                                           min_valence=starting[7]-0.15, max_valence=starting[7]+0.15,
-                                           seed_tracks=random_uris,
-                                           limit=20)
+    recommended_songs = sp.recommendations(min_energy = starting[0]-stats, max_energy = starting[0]+stats,
+                                             min_acousticness = starting[1]-stats, max_acousticness = starting[1]+stats,
+                                             min_danceability = starting[2]-stats, max_danceability = starting[2]+stats,
+                                             min_instrumentalness = starting[3]-stats, max_instrumentalness = starting[3]+stats,
+                                             min_liveness = starting[4]-stats, max_liveness = starting[4]+stats,
+                                             min_loudness = starting[5]-stats, max_loudness = starting[5]+stats,
+                                             min_tempo = starting[6]-10, max_tempo = starting[6]+10,
+                                             min_valence = starting[7]-stats, max_valence = starting[7]+stats,
+                                             seed_tracks = random_uris,
+                                             limit = 50)
+        
     
-    for song in recommended_songs['tracks']:
-        print(f'Title: {song["name"]}, Artist: {song["artists"][0]["name"]}, URI: {song["uri"]}')
+    # print(recommended_songs)
 
+    # for song in recommended_songs['tracks']:
+    #     print(f'Title: {song["name"]}, Artist: {song["artists"][0]["name"]}, URI: {song["uri"]}')
+
+    if len(recommended_songs['tracks']) >= 1:
+        return recommended_songs['tracks'][-1] 
+    else:
+        return emergency_recs(stats = 0.15, starting=starting, random_uris=random_uris)
+
+def emergency_recs(stats, starting, random_uris):
+    recommended_songs = sp.recommendations(min_energy = starting[0]-stats, max_energy = starting[0]+stats,
+                                             min_acousticness = starting[1]-stats, max_acousticness = starting[1]+stats,
+                                             min_danceability = starting[2]-stats, max_danceability = starting[2]+stats,
+                                             min_instrumentalness = starting[3]-stats, max_instrumentalness = starting[3]+stats,
+                                             min_liveness = starting[4]-stats, max_liveness = starting[4]+stats,
+                                             min_loudness = starting[5]-stats, max_loudness = starting[5]+stats,
+                                             min_tempo = starting[6]-10, max_tempo = starting[6]+10,
+                                             min_valence = starting[7]-stats, max_valence = starting[7]+stats,
+                                             seed_tracks = random_uris,
+                                             limit = 50)
+    if len(recommended_songs['tracks']) >= 1:
+        return recommended_songs['tracks'][-1] 
+    else:
+        return emergency_recs(stats = stats + 0.05, starting=starting, random_uris=random_uris)
     # print(recommended_songs)
