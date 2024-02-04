@@ -4,9 +4,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "our-purple": "#4F3C75",
-        "our-beige": "#FAE8DD",
-    }
+        "ourPurple": "#4F3C75",
+        "ourBeige": "#FAE8DD",
+      },
+      fontFamily: {
+        outfit: ["Outfit", "sans-serif"],
+        sora: ["Sora", "sans-serif"],
+      }
+
     },
     
   },
