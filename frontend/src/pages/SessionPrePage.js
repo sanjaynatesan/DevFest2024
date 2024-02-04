@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../App.css";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
 function SessionPrePage() {
@@ -7,8 +8,10 @@ function SessionPrePage() {
     const [inputValue, setInputValue] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
 
+
     const handleSubmit = () => {
         if (mindset === '' && inputValue === '') {
+            setIsSubmitted(false);
             return;
         }
         setIsSubmitted(true);
@@ -23,7 +26,7 @@ function SessionPrePage() {
     }
 
 
-    return(
+    return (
         <div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                 How are you feeling today?
@@ -64,9 +67,12 @@ function SessionPrePage() {
                     <button className="px-4 py-3 text-center border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50"
                     onClick={handleSubmit}>
                         <div className="flex flex-row">
-                            <div className="w-15 p-2 text-sm sm:text-lg whitespace-nowrap">
-                                Submit
-                            </div>
+                            <Link>
+                                <div className="w-15 p-2 text-sm sm:text-lg whitespace-nowrap">
+                                    Submit
+                                </div>
+                            </Link>
+
                         </div>
                     </button>
                 </div>
