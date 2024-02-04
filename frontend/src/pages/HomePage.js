@@ -5,6 +5,12 @@ import "../App.css";
 function HomePage() {
     const [displayName, setDisplayName] = useState("User");
 
+    let accessToken = window.localStorage.getItem("token");
+
+    if (accessToken === null) {
+        window.location.href = "/login";
+    }
+
     useEffect(() => {
         // Retrieve display_name from local storage
         const storedDisplayName = window.localStorage.getItem("display_name");
