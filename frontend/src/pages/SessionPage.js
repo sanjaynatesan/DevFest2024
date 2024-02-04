@@ -53,10 +53,10 @@ function SessionPage() {
         setSubmit(!submit);
         setIsOpen(false);
         setNext(!next);
-        setZone1Hover(false);
-        setZone2Hover(false);
-        setZone3Hover(false);
-        setZone4Hover(false);
+        setZone1Hover(true);
+        setZone2Hover(true);
+        setZone3Hover(true);
+        setZone4Hover(true);
 
     }
 
@@ -244,7 +244,7 @@ function SessionPage() {
 
                                 <div
                                     className={`absolute left-0 w-1/4 h-full flex justify-center items-center bg-spotify-green`} // Adjusted classes
-                                    onDrop={(e) => handleDrop(e, "zone4", "Next Song")}
+                                    onDrop={(e) => handleDrop(e, "zone4", "I don't like this song")}
                                     onDragOver={() => setZone4Hover(true)}
                                     onDragLeave={() => setZone4Hover(false)}
                                 >
@@ -264,7 +264,7 @@ function SessionPage() {
                                             onDragLeave={() => setZone4Hover(false)}
                                             onDrop={() => resetZone(4)}
                                         >
-                                            Next Song
+                                            I don't like this song
                                         </Container>
                                     </SlideFade>
                                 </div>
