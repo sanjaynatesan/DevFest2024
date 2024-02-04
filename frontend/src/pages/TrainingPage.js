@@ -8,8 +8,9 @@ function TrainingPage() {
     const [submissionStatus, setSubmissionStatus] = useState(null);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [writtenFeelings, setWrittenFeelings] = useState('');
-
     const [displayName, setDisplayName] = useState("User");
+
+    const feelings = ["Jaded", "Happy", "Stressed", "Wistful", "Faithful", "Salacious"];
 
     useEffect(() => {
         // Retrieve display_name from local storage
@@ -74,6 +75,8 @@ function TrainingPage() {
                     username: window.localStorage.getItem("username"),
                     feelings: feelings1,
                     written_feelings: feelings2,
+                    not_feelings: Array.from(feelings).filter((x) => !feelings1.includes(x)),
+                    song_uri: recentSongs[currentSongIndex].uri
                  }),
             });
 
@@ -124,7 +127,7 @@ function TrainingPage() {
                 )}
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
-                How does this song make you feel?
+                What are you feeling when this song plays?
             </div>
 
             <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
@@ -141,10 +144,10 @@ function TrainingPage() {
                     Happy
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Excited") ? "bg-gray-300" : ""}`}
-                    onClick={() => handleFeelingClick("Excited")}
+                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Stressed") ? "bg-gray-300" : ""}`}
+                    onClick={() => handleFeelingClick("Stressed")}
                 >
-                    Excited
+                    Stressed
                 </div>
                 <div
                     className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Wistful") ? "bg-gray-300" : ""}`}
