@@ -30,8 +30,8 @@ function AboutPage() {
                         the way that people interact with music. As musicians ourselves, we are interested in
                         how music contributes to our own wellness and so we figured: why not use tech to help others achieve 
                         this? That was the motivation behind Polyphony, Greek for "many sounds",
-                        a web app that helps you get in touch with your different feelings through different songs. We've put a lot of work into this project
-                        and we're excited to share what we've come up with you. We hope you enjoy Polyphony!
+                        a web app that helps you get in touch with your different feelings through different songs. We've put a lot of work into the project
+                        and we're excited to share it with you all. We hope you enjoy Polyphony!
                     </div>
                 </Fade>
 
