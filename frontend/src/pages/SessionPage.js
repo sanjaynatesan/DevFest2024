@@ -53,6 +53,11 @@ function SessionPage() {
         setSubmit(!submit);
         setIsOpen(false);
         setNext(!next);
+        setZone1Hover(false);
+        setZone2Hover(false);
+        setZone3Hover(false);
+        setZone4Hover(false);
+
     }
 
     function goHome(){
