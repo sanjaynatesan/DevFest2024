@@ -27,7 +27,7 @@ function SessionStartPage() {
             <img src={sessionstartpagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
                  style={{"zIndex": -1}}/>
             <div className="mt-40 mb-24 text-center text-7xl font-outfit text-ourPurple font-bold">
-                Hi <span className="text-orange-600">{displayName}</span>.
+                Hey, <span className="text-orange-600">{displayName}</span>.
                 Let's get started.
             </div>
             <div className="my-6 text-center">
