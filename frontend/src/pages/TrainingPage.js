@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "../App.css";
+import trainingpagebackground from "../assets/trainingpagebackground.svg"
 
 function TrainingPage() {
     const [recentSongs, setRecentSongs] = useState(null);
@@ -92,7 +93,7 @@ function TrainingPage() {
 
             // Move on to session page after clicking next on last song
             if (currentSongIndex === recentSongs.length - 1) {
-                window.location.href = "/session";
+                window.location.href = "/session-pre";
                 return;
             }
 
@@ -106,6 +107,8 @@ function TrainingPage() {
 
     return(
         <div>
+            <img src={trainingpagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
+                 style={{"zIndex": -1}}/>
             <div className="mt-20 mx-560 text-center text-xl sm:text-2xl font-mono">Hey,&nbsp;
                 <span className="text-green-400"> {displayName}.&nbsp; </span>
                 Let's talk about your music. Here is a song you played recently:
