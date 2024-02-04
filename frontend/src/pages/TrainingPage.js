@@ -114,8 +114,10 @@ function TrainingPage() {
                 Here is a song you played recently:
             </div>
             <div>
-                <img className="mx-auto mt-9 w-44 h-44 rounded-md"
-                     src="https://i.scdn.co/image/ab67616d0000b27343ec4e5bf12be32fc0beaac2"/>
+                <img className="className mx-auto mt-9 w-44 h-44 rounded-md"
+                    src={recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].image : "#"} // Replace 'image' with the actual property name in your API response
+                    alt="Song Cover"
+                />     
                 <div
                     className="mt-4 mx-60 text-center text-xl sm:text-2xl font-outfit text-blue-800 font-normal">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
