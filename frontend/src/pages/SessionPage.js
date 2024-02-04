@@ -200,7 +200,7 @@ function SessionPage() {
                                         <Box
                                             p="40px"
                                             color="white"
-                                            bg="#1DB954" // Spotify green
+                                            bg="#517209"
                                             rounded="md"
                                             shadow="md"
                                             w="100%"
@@ -228,7 +228,7 @@ function SessionPage() {
                                         <Box
                                             p="40px"
                                             color="white"
-                                            bg="#FFB954" // Spotify green
+                                            bg="#5663FC" // Spotify green
                                             rounded="md"
                                             shadow="md"
                                             w="100%"
@@ -255,7 +255,7 @@ function SessionPage() {
                                         <Container
                                             p="40px"
                                             color="white"
-                                            bg="#000000" // Spotify green
+                                            bg="#FF9F23"
                                             rounded="md"
                                             shadow="md"
                                             w="full" // Make sure the Box takes the width of the parent div
@@ -283,7 +283,7 @@ function SessionPage() {
                                         <Container
                                             p="40px"
                                             color="white"
-                                            bg="#481F02"
+                                            bg="#B87771"
                                             rounded="md"
                                             shadow="md"
                                             w="full" // Make sure the Box takes the width of the parent div
