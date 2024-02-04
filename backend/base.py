@@ -468,13 +468,13 @@ def retrain():
     song_uri = data.get('song_uri', None)
     username = data.get('username', None)
     reaction = data.get('reaction', 1)
-    emotion = data.get('feelings', None)
+    response = data.get('emotion', None)
 
     conn = get_database_connection()
     curr = conn.cursor()
 
     curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
-                 (username, emotion, reaction, song_uri))
+                 (username, response, reaction, song_uri))
     conn.commit()
 
     curr.close()
@@ -493,7 +493,7 @@ def recommendation():
     conn = get_database_connection()
     curr = conn.cursor()
 
-    response = data.get('feelings', None) 
+    response = data.get('emotion', None) 
 
     curr.execute("SELECT song_uri, reaction FROM user_songs WHERE username = %s AND emotion = %s", (username, response,))
     uri_reaction = curr.fetchall()
@@ -521,7 +521,7 @@ def recommendation():
         "title": returnval["name"],
         "song_uri": returnval["uri"],
         "image": returnval["album"]["images"][0]["url"],
-        "feelings": response,
+        "emotion": response,
         "username": username
     }
 
