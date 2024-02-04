@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import "../App.css";
 import loginbackground from '../assets/loginbackground.svg';
 import spotifylogo from "../assets/spotify-logo-black.svg";
+import {Link} from "react-router-dom";
 
 function LoginPage() {
     const CLIENT_ID = "516b7b9290614e308a2045dcadea221d";
@@ -116,20 +117,30 @@ function LoginPage() {
                     "animationDirection": "alternate"              
             }}/>
             <div className="mt-48 text-center text-7xl sm:text-9xl font-outfit text-white">Polyphony</div>
-            <div className="my-20 text-center">
+            <div className="mt-20 mb-10 text-center">
                 <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>
                     <button className="px-4 py-3 text-center rounded-3xl text-ourPurple bg-white hover:bg-gray-200">
                         <div className="flex flex-row">
                             <div className="w-1/6">
                                 <img src={spotifylogo} alt="spotify"/>
                             </div>
-                            <div className="w-5/6 py-2 pl-6 pr-12 text-sm sm:text-lg font-sora whitespace-nowrap">
+                            <div className="w-5/6 py-2 pl-6 pr-12 text-lg font-sora whitespace-nowrap">
                                 Login with Spotify
                             </div>
                         </div>
-                </button>
+                    </button>
                 </a>
             </div>
+
+            <Link to="/about">
+                <div className="text-center font-sora text-lg fixed top-0 right-0 p-4 mr-8 mt-8">
+                    <button className="px-5 py-3 text-center rounded-2xl text-ourPurple bg-white hover:bg-gray-200">
+                        <div className="flex flex-row">
+                            About
+                        </div>
+                    </button>
+                </div>
+            </Link>
         </div>
     );
 }
