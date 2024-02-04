@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import "../App.css";
-import backgroundwave from '../assets/backgroundwave.svg';
+import loginbackground from '../assets/loginbackground.svg';
 import spotifylogo from "../assets/spotify-logo-black.svg";
 
 function LoginPage() {
@@ -97,7 +97,7 @@ function LoginPage() {
 
     return (
         <div>
-            <img src={backgroundwave} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
+            <img src={loginbackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
                 style={{"zIndex": -1, 
                     "backgroundSize": "cover",
                     "webkitAnimation": "slidein 100s",
