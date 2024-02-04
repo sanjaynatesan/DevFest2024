@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import "../App.css";
+import backgroundwave from '../assets/backgroundwave.svg';
 import spotifylogo from "../assets/spotify-logo-black.svg";
 
 function LoginPage() {
@@ -118,10 +119,12 @@ function LoginPage() {
 
     return (
         <div>
-            <div className="mt-48 text-center text-6xl sm:text-8xl font-mono">Polyphony</div>
+            <img src={backgroundwave} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
+                style={{zIndex: -1}}/>
+            <div className="mt-48 text-center text-6xl sm:text-8xl font-mono text-white">Polyphony</div>
             <div className="my-20 text-center">
                 <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>
-                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                    <button className="px-4 py-3 text-center border-white border-4 font-mono rounded-3xl text-white hover:bg-gray-50">
                         <div className="flex flex-row">
                             <div className="w-1/6">
                                 <img src={spotifylogo} alt="spotify"/>
