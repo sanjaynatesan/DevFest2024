@@ -448,7 +448,7 @@ def presessionResultProcessing():
             "title": returnval["name"],
             "song_uri": returnval["uri"],
             "image": returnval["album"]["images"][0]["url"],
-            "response": response,
+            "feelings": response,
             "username": username
         }
 
@@ -459,6 +459,79 @@ def presessionResultProcessing():
     except Exception as e:
         print(f'Error processing result: {str(e)}')
         return {'error': 'Failed to process result'}, 500
+
+@api.route('/retrain', methods=['POST'])
+@cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
+def retrain():
+    data = request.get_json()
+
+    song_uri = data.get('song_uri', None)
+    username = data.get('username', None)
+    reaction = data.get('reaction', 1)
+    emotion = data.get('feelings', None)
+
+    conn = get_database_connection()
+    curr = conn.cursor()
+
+    curr.execute("INSERT INTO user_songs (username, emotion, reaction, song_uri) VALUES (%s, %s, %s, %s)",
+                 (username, emotion, reaction, song_uri))
+    conn.commit()
+
+    curr.close()
+    conn.close()
+    return 'OK', 200
+
+@api.route('/recommendation', methods=['POST', 'GET'])
+@cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
+def recommendation():
+    data = request.get_json(force=True)
+
+    inputType = data.get('inputType', 0) # 1
+    username = data.get('username', None) # '9tlgjm5tb8iivhwr525qopqu7'
+    # print(f'Received response: {response}')
+    # print(f'Received input type: {inputType}')
+
+    conn = get_database_connection()
+    curr = conn.cursor()
+
+    response = data.get('feelings', None) 
+
+    curr.execute("SELECT song_uri, reaction FROM user_songs WHERE username = %s AND emotion = %s", (username, response,))
+    uri_reaction = curr.fetchall()
+
+    print(uri_reaction)
+
+    # uri_reaction_list = [(uri, reaction) for uri, reaction in uri_reaction if uri != ""]
+
+    uri_reaction_list = []
+    for uri, reaction in uri_reaction:
+        if uri != "":
+            uri_reaction_list.append((uri, reaction))
+
+    print(uri_reaction_list)
+
+    curr.close()
+    conn.close()
+
+    returnval = algorithms.get_recs(uri_reaction_list)
+    print(returnval)
+
+    to_return = {
+        "album": returnval["album"]["name"],
+        "artist": returnval["artists"][0]["name"],
+        "title": returnval["name"],
+        "song_uri": returnval["uri"],
+        "image": returnval["album"]["images"][0]["url"],
+        "feelings": response,
+        "username": username
+    }
+
+    print(to_return)
+
+    return to_return
+
+
+
 
 
 if __name__ == '__main__':
