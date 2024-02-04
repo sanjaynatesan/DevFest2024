@@ -29,8 +29,34 @@ def training_vertex(gcp_matches, prompt):
 
     return output
 
+def suggestions_vertex(emotions, prompt):
+    genai.configure(api_key=VERTEX_API_KEY)
+
+    for m in genai.list_models():
+        if 'generateContent' in m.supported_generation_methods:
+            print(m.name)
+
+    model = genai.GenerativeModel('gemini-pro')
+
+    response = model.generate_content('The prompt below needs to be analyzed for simple emotions that it could suggest. \
+                                    Then, it should be compared to an existing list of emotions, listed below. Find the closest \
+                                    matching emotion in this list, and return it. It should be the last word in your output, \
+                                    with no punctuation at the end. \n\n Prompt: "'
+                                    + prompt + '" \n\n Existing List: "' + emotions)
+
+    output = str(response.text)
+
+    print(output)
+    word_output = output.split()[-1]
+
+    print(word_output)
+
+    return word_output
+
+
+
 def test():
     gcp_matches = 'happy, sad, angry, excited, anxious, calm, stressed, relaxed, tired, energetic, bored, lonely, loved'
     prompt = 'I am feeling happy today'
 
-    training_vertex(gcp_matches, prompt)
+    suggestions_vertex(gcp_matches, prompt)

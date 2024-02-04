@@ -84,6 +84,12 @@ function LoginPage() {
                     console.log(userInfo);
                     window.localStorage.setItem("display_name", userInfo['display_name'])
                     window.localStorage.setItem("username", userInfo['username'])
+                    const isNew = userInfo['new'];
+                    if (isNew) {
+                        window.location.href = "/training";
+                    } else {
+                        window.location.href = "/";
+                    }
                 } else {
                     console.error("Failed to authenticate user");
                 }
