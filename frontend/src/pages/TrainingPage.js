@@ -190,7 +190,6 @@ function TrainingPage() {
                 </div>
             </div>
             
-
             {submissionStatus && (
                 <div className="mt-6 mx-72 text-center text-xl text-green-400 font-mono">{submissionStatus}</div>
             )}

@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import "../App.css";
+import homepagebackground from "../assets/homepagebackground.svg";
 
 function HomePage() {
     const [displayName, setDisplayName] = useState("User");
+    const [time, setTime] = useState(getTimeOfDay());
+    const [timeOfDay, setTimeOfDay] = useState("Good evening");
 
     let accessToken = window.localStorage.getItem("token");
 
@@ -17,18 +20,38 @@ function HomePage() {
         setDisplayName(storedDisplayName || "Guest"); // Set default to "Guest" if not found
     }, []);
 
+    useEffect(() => {
+        setTime(getTimeOfDay());
+        setTimeOfDay(`Good ${time[0]}`);
+
+    }, []);
+
+    function getTimeOfDay() {
+        const currentDate = new Date();
+        const currentHour = currentDate.getHours();
+        let timeOfDay;
+        if (currentHour >= 5 && currentHour < 12) {
+            timeOfDay = 'morning';
+        } else if (currentHour >= 12 && currentHour < 17) {
+            timeOfDay = 'afternoon';
+        } else {
+            timeOfDay = 'evening';
+        }
+        return [timeOfDay, currentHour];
+    }
 
     return(
         <div>
-            <div className="mt-40 mb-24 text-center text-3xl sm:text-4xl font-mono">
-                Good evening, {displayName}.
+            <img src={homepagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
+                 style={{"zIndex": -1}}/>
+            <div className="mt-40 mb-24 text-center text-7xl font-outfit text-ourPurple font-bold">
+                Good {time[0]}, <span className="text-orange-600">{displayName}</span>.
             </div>
-
-            <div className="my-4 text-center">
+            <div className="my-6 text-center">
                 <Link to="/session-start">
-                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                    <button className="px-8 py-6 text-center rounded-3xl text-xl font-sora text-white hover:bg-purple-950 bg-ourPurple">
                         <div className="flex flex-row">
-                            <div className="w-52 p-2 text-sm sm:text-lg whitespace-nowrap">
+                            <div className="w-52 p-2 whitespace-nowrap">
                                 Start session
                             </div>
                         </div>
@@ -36,11 +59,11 @@ function HomePage() {
                 </Link>
             </div>
 
-            <div className="my-4 text-center">
+            <div className="my-6 text-center">
                 <Link to="/training">
-                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                    <button className="px-8 py-6 text-center rounded-3xl text-xl font-sora text-white hover:bg-purple-950 bg-ourPurple">
                         <div className="flex flex-row">
-                            <div className="w-52 p-2 text-sm sm:text-lg whitespace-nowrap">
+                            <div className="w-52 p-2 whitespace-nowrap">
                                 Teach us about you
                             </div>
                         </div>
@@ -48,14 +71,16 @@ function HomePage() {
                 </Link>
             </div>
 
-            <div className="my-4 text-center">
-                <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
-                    <div className="flex flex-row">
-                        <div className="w-52 p-2 text-sm sm:text-lg whitespace-nowrap">
-                            Settings
+            <div className="my-6 text-center">
+                <Link to="/about">
+                    <button className="px-8 py-6 text-center rounded-3xl text-xl font-sora text-white hover:bg-purple-950 bg-ourPurple">
+                        <div className="flex flex-row">
+                            <div className="w-52 p-2 whitespace-nowrap">
+                                About
+                            </div>
                         </div>
-                    </div>
-                </button>
+                    </button>
+                </Link>
             </div>
 
         </div>
