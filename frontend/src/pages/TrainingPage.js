@@ -39,8 +39,8 @@ function TrainingPage() {
         fetchData();
     }, [])
 
-
     function handleFeelingClick(feeling) {
+        console.log("Just clicked: ", feeling);
         // Toggle the selected feeling
         setSelectedFeelings((prevSelectedFeelings) => {
             if (prevSelectedFeelings.includes(feeling)) {
@@ -49,6 +49,7 @@ function TrainingPage() {
                 return [...prevSelectedFeelings, feeling];
             }
         });
+        console.log("selected feelings are: ", selectedFeelings);
     }
 
     const handleWrittenFeelingsChange = (e) => {
@@ -134,37 +135,37 @@ function TrainingPage() {
 
             <div className="mt-10 mx-64 grid grid-cols-2 gap-4 font-sora text-xl text-gray-800 font-bold">
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Jaded") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Jaded") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Jaded")}
                 >
                     Jaded
                 </div>
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Happy") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Happy") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Happy")}
                 >
                     Happy
                 </div>
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Stressed") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Stressed") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Stressed")}
                 >
                     Stressed
                 </div>
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Wistful") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Wistful") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Wistful")}
                 >
                     Wistful
                 </div>
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Faithful") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Faithful") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Faithful")}
                 >
                     Faithful
                 </div>
                 <div
-                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Salacious") ? "bg-purple-200" : ""}`}
+                    className={`rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-100 ${selectedFeelings.includes("Salacious") ? "bg-purple-200" : "bg-white"}`}
                     onClick={() => handleFeelingClick("Salacious")}
                 >
                     Salacious
