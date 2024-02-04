@@ -388,7 +388,7 @@ def submit_feelings():
 
 
 @api.route('/presessionResultProcessing', methods=['POST', 'GET'])
-@cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
+@cross_origin(supports_credentials=True, origins=['*'])
 def presessionResultProcessing():
     try:
         data = request.get_json()
@@ -467,8 +467,9 @@ def retrain():
 
     song_uri = data.get('song_uri', None)
     username = data.get('username', None)
-    reaction = data.get('reaction', 1)
+    reaction = data.get('reaction', True)
     response = data.get('emotion', None)
+    print(data)
 
     conn = get_database_connection()
     curr = conn.cursor()
@@ -484,7 +485,7 @@ def retrain():
 
     curr.close()
     conn.close()
-    return 'OK', 200
+    return {'OK': 200}
 
 @api.route('/recommendation', methods=['POST', 'GET'])
 @cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])

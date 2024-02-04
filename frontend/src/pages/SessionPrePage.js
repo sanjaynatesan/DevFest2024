@@ -11,7 +11,7 @@ function SessionPrePage() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [inputType, setInputType] = useState(0);
     const [isClicked, setIsClicked] = useState(false);
-    const [response, setResponse] = useState('stim');
+    const [response, setResponse] = useState('');
     const navigate = useNavigate();
 
 
@@ -27,7 +27,7 @@ function SessionPrePage() {
 
             // 0 is button, 1 is input
 
-            const response = await fetch('http://127.0.0.1:5000/presessionResultProcessing', {
+            const response = await fetch('/presessionResultProcessing', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,9 +45,7 @@ function SessionPrePage() {
             }
 
             const data = await response.json();
-            console.log(data);
-            setResponse(data.message);
-            navigate('/session', { state: { message: data.message } });
+            navigate('/session', { state: { message: data } });
         }catch (error) {
             console.error('Error submitting feelings:', error);
         }
@@ -125,11 +123,11 @@ function SessionPrePage() {
                         <button className="px-4 py-3 text-center border-black border-2 font-mono rounded-3xl text-black hover:bg-black hover:text-white"
                                 onClick={handleSubmit}>
                             <div className="flex flex-row">
-                                <Link to="/session">
+                                {/*<Link to="/session">*/}
                                     <div className="w-15 p-2 text-sm sm:text-lg whitespace-nowrap">
                                         Submit
                                     </div>
-                                </Link>
+                                {/*</Link>*/}
                             </div>
                         </button>
                     ) : (

@@ -5,141 +5,10 @@ import sessionpagebackground from "../assets/sessionpagebackground.svg";
 import {useLocation} from "react-router";
 
 function SessionPage() {
-    // TODO: Replace dummy data
-    const dummyData = [
-        {
-            "artist": "Nicky Jam",
-            "genres": [
-                "latin hip hop",
-                "reggaeton",
-                "trap latino",
-                "urbano latino"
-            ],
-            "title": "X (feat. Maluma & Ozuna) - Remix",
-            "image": "https://i.scdn.co/image/ab67616d0000b27343ec4e5bf12be32fc0beaac2",
-            "uri": "spotify:track:6JjPBQfI2Y8nIjnm65X6Pw",
-            "weight": 5.158460415146735
-        },
-        {
-            "artist": "Ozuna",
-            "genres": [
-                "puerto rican pop",
-                "reggaeton",
-                "trap latino",
-                "urbano latino"
-            ],
-            "title": "Bebé",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:0ulsRBiciReng91DhfVT9D",
-            "weight": 4.720726046469784
-        },
-        {
-            "artist": "Jay Chou",
-            "genres": [
-                "c-pop",
-                "mandopop",
-                "taiwan pop",
-                "zhongguo feng"
-            ],
-            "title": "蒲公英的約定",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:3JovAXFjc98TkksMfeyIMh",
-            "weight": 2.884160497896886
-        },
-        {
-            "artist": "Prince Royce",
-            "genres": [
-                "bachata",
-                "latin hip hop",
-                "latin pop",
-                "urbano latino"
-            ],
-            "title": "Cosas de la Peda (feat. Gabito Ballesteros)",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:1RzNRKntEk0KiQE4NFBKmc",
-            "weight": 5.28964254738048
-        },
-        {
-            "artist": "Romeo Santos",
-            "genres": [
-                "bachata",
-                "latin hip hop",
-                "latin pop",
-                "urbano latino"
-            ],
-            "title": "Mi Santa (feat. Tomatito)",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:4EbAftNM732UGLF8gmIIsX",
-            "weight": 5.28964254738048
-        },
-        {
-            "artist": "CNCO",
-            "genres": [
-                "boy band",
-                "latin pop",
-                "reggaeton",
-                "urbano latino"
-            ],
-            "title": "Reggaetón Lento (Bailemos)",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:3AEZUABDXNtecAOSC1qTfo",
-            "weight": 4.556474012983767
-        },
-        {
-            "artist": "Ozuna",
-            "genres": [
-                "puerto rican pop",
-                "reggaeton",
-                "trap latino",
-                "urbano latino"
-            ],
-            "title": "Egoísta",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:4X3CV9rXo3hQrkb0fzRAux",
-            "weight": 4.720726046469784
-        },
-        {
-            "artist": "Romeo Santos",
-            "genres": [
-                "bachata",
-                "latin hip hop",
-                "latin pop",
-                "urbano latino"
-            ],
-            "title": "Eres Mía",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:6I86RF3odBlcuZA9Vfjzeq",
-            "weight": 5.28964254738048
-        },
-        {
-            "artist": "Romeo Santos",
-            "genres": [
-                "bachata",
-                "latin hip hop",
-                "latin pop",
-                "urbano latino"
-            ],
-            "title": "Amor Enterrado",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:3cdTfwai1PtCGOd9DIBMNU",
-            "weight": 5.28964254738048
-        },
-        {
-            "artist": "Zacarias Ferreira",
-            "genres": [
-                "bachata",
-                "bachata dominicana"
-            ],
-            "title": "Es Tan Difícil",
-            "image": "https://i.scdn.co/image/ab67616d0000b2737359994525d219f64872d3b1",
-            "uri": "spotify:track:0Ihu6hcj4hrWVz22W3G10P",
-            "weight": 2.5905292832732236
-        }
-    ]
     const [responses, setResponses] = useState([]);
     const [songCount, setSongCount] = useState(0);
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
-    const currentSong = dummyData[currentSongIndex];
+    const [currentSong, setCurrentSong] = useState({})
     const [isOpen, setIsOpen] = useState(false);
     const [submit, setSubmit] = useState(false);
     const [review, setReview] = useState('');
@@ -150,16 +19,28 @@ function SessionPage() {
     const [zone2Hover, setZone2Hover] = useState(false);
     const [zone3Hover, setZone3Hover] = useState(false);
     const [zone4Hover, setZone4Hover] = useState(false);
+    const [choice, setChoice] = useState('');
+    const [emotion, setEmotion] = useState('');
+    const[isLoading, setIsLoading] = useState(false);
     const location = useLocation();
-    const { message } = location.state || {};
+
+
 
     useEffect(() => {
+        setIsLoading(true);
+
+        const { message } = location.state || {};
+        console.log(message);
+        handleSongChange({"title": message.title, "artist": message.artist, "image": message.image, "uri": message.song_uri});
+        setEmotion(message.feelings);
+        setIsLoading(false);
         // Disable scrolling when the page loads
         document.body.style.overflow = 'hidden';
         return () => {
             // Re-enable scrolling when the component unmounts
             document.body.style.overflow = 'unset';
         };
+
     }, []);
 
     const handleDragStart = (e, item) => {
@@ -169,6 +50,8 @@ function SessionPage() {
     };
 
     const handleDrop = (e, zone, choice) => {
+        setChoice(choice);
+        console.log("Choice: " + choice);
         e.preventDefault();
         const item = e.dataTransfer.getData("text");
 
@@ -179,8 +62,12 @@ function SessionPage() {
         setIsHovering({ zone1: false, zone2: false, zone3: false, zone4: false});
 
 
-        if(choice === "Open in Spotify" || choice === "Add to Library"){
-            console.log(currentSong.title)
+        if(choice === "up" || choice === "right"){
+            console.log(currentSong.title);
+
+            for (let i = 0; i < responses.length; i++) {
+                console.log(responses[i]);
+            }
             addResponse(currentSong.title);
             // TODO: Redirect to stats page to add the playlist
             setSongCount(songCount + 1);
@@ -189,6 +76,10 @@ function SessionPage() {
             }
         }
     };
+
+    function handleSongChange(song){
+        setCurrentSong(song);
+    }
 
 
 
@@ -200,29 +91,120 @@ function SessionPage() {
         setIsOpen(true);
     }
 
-    function handleSubmitNextPlay() {
+    // song_uri, username, reaction, emotion
+
+    async function handleSubmitNextPlay(choice) {
+
+        setIsLoading(true);
         setSubmit(!submit);
         setIsOpen(false);
         setNextPlay(!nextPlay);
-        setZone1Hover(true);
-        setZone2Hover(true);
-        setZone3Hover(true);
-        setZone4Hover(true);
 
+
+        console.log("Choice: " + choice);
+
+        if (choice === "up") {
+
+            console.log("About to add to response array");
+            addResponse(currentSong.uri);
+
+            console.log("About to retrain");
+
+            setIsLoading(true);
+
+            const response = await fetch('/retrain', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    song_uri: currentSong.uri,
+                    username: window.localStorage.getItem("username"),
+                    reaction: true,
+                    emotion: emotion
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log(data);
+            await getRecommendation();
+            let url = "https://open.spotify.com/track/" + currentSong.uri.split(":")[2];
+            console.log(url);
+            window.open(url, '_blank');
+            setIsLoading(false);
+        }else if(choice === "right"){
+            // Add to Playlist
+            addResponse(currentSong.title);
+
+        }else if(choice === "down"){
+            getRecommendation();
+        }else if(choice === "left"){
+
+            getRecommendation();
+            // I don't like this song, give me another recommendation
+
+        }
 
     }
 
-    function handleSubmitNextSong() {
-        setSubmit(!submit);
-        setIsOpen(false);
-        setNextPlay(!nextPlay);
 
-        if (currentSongIndex < dummyData.length - 1) {
-            setCurrentSongIndex(currentSongIndex + 1);
-        } else {
-            goHome();
+    async function getRecommendation(){
+        console.log("About to get recommendation");
+        const response = await fetch('/recommendation', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: window.localStorage.getItem("username"),
+                emotion: emotion
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        const data = await response.json();
+        handleSongChange({"title": data.title, "artist": data.artist, "image": data.image, "uri": data.song_uri});
+    }
 
+    // async function sendReply(reply){
+    //     if(reply === "up"){
+    //         console.log("About to retrain");
+    //         const response = await fetch('/retrain', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //                 song_uri: currentSong.uri,
+    //                 username: window.localStorage.getItem("username"),
+    //                 reaction: 1,
+    //                 emotion: emotion
+    //             }),
+    //         });
+    //
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
+    //         const data = await response.json();
+    //         console.log(data);
+    //         await getRecommendation();
+    //     }
+    // }
+
+        async function handleSubmitNextSong() {
+
+            setSubmit(!submit);
+            setIsOpen(false);
+            setNextPlay(!nextPlay);
+            setZone1Hover(true);
+            setZone2Hover(true);
+            setZone3Hover(true);
+            setZone4Hover(true);
     }
 
     function goHome(){
@@ -254,9 +236,6 @@ function SessionPage() {
 
     function addResponse(song) {
         setResponses([...responses, song]);
-        for (let i = 0; i < responses.length; i++) {
-            console.log(responses[i]);
-        }
     }
 
 
@@ -264,7 +243,7 @@ function SessionPage() {
         <div>
             <img src={sessionpagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
                  style={{"zIndex": -1}}/>
-            {!submit && <div>
+            {!submit && !isLoading && <div>
                 <Fade in={!submit} transition={{exit: {duration: .25}, enter: {duration: 1}}}>
                     <div className="mt-20 text-center text-xl sm:text-2xl font-mono mb-20 text-black">
                         Take a Listen to the Following Song:
@@ -321,7 +300,7 @@ function SessionPage() {
                                 <button onClick={goHome} className="px-2 py-2 mt-8 mr-4 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                     <span>End Session</span>
                                 </button>
-                                <button onClick={handleSubmitNextPlay} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
+                                <button onClick={handleSubmitNextSong} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                     <span>Next</span>
                                 </button>
                             </div>
@@ -331,7 +310,7 @@ function SessionPage() {
                 </Fade>
             </div>}
 
-            {submit && <div>
+            {submit && !isLoading && <div>
                 <Fade in={submit} transition={{exit: {duration: .25}, enter: {duration: 1}}}>
 
                     <div className="fixed inset-0">
@@ -363,7 +342,7 @@ function SessionPage() {
                                         <button onClick={goHome} className="px-2 py-2 mt-8 mr-4 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                             <span>End Session</span>
                                         </button>
-                                        <button onClick={handleSubmitNextSong} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
+                                        <button onClick={() => handleSubmitNextPlay(choice)} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                             <span>Next</span>
                                         </button>
 
@@ -373,7 +352,7 @@ function SessionPage() {
 
                                 <div
                                     className={`absolute top-0 w-full`}
-                                    onDrop={(e) => handleDrop(e, "zone1", "Open in Spotify")}
+                                    onDrop={(e) => handleDrop(e, "zone1", "up")}
                                     onDragOver={() => setZone1Hover(true)}
                                     style={{ height: '30vh' }} // Ensure it takes up 25% of the viewport height
                                 >
@@ -400,7 +379,7 @@ function SessionPage() {
 
                                 <div
                                     className={`absolute bottom-0 w-full`}
-                                    onDrop={(e) => handleDrop(e, "zone3", "Skip")}
+                                    onDrop={(e) => handleDrop(e, "zone3", "down")}
                                     onDragOver={() => setZone3Hover(true)}
                                     onDragLeave={() => setZone3Hover(false)}
                                     style={{ height: '25vh' }} // Ensure it takes up 25% of the viewport height
@@ -428,7 +407,7 @@ function SessionPage() {
 
                                 <div
                                     className={`absolute left-0 w-1/4 h-full flex justify-center items-center bg-spotify-green`} // Adjusted classes
-                                    onDrop={(e) => handleDrop(e, "zone4", "I don't like this song")}
+                                    onDrop={(e) => handleDrop(e, "zone4", "left")}
                                     onDragOver={() => setZone4Hover(true)}
                                     onDragLeave={() => setZone4Hover(false)}
                                 >
@@ -456,7 +435,7 @@ function SessionPage() {
 
                                 <div
                                     className={`absolute right-0 w-1/4 h-full flex justify-center items-center`} // Adjusted classes
-                                    onDrop={(e) => handleDrop(e, "zone2", "Add to Library")}
+                                    onDrop={(e) => handleDrop(e, "zone2", "right")}
                                     onDragOver={() => setZone2Hover(true)}
                                     onDragLeave={() => setZone2Hover(false)}
                                 >
@@ -486,6 +465,25 @@ function SessionPage() {
                     </div>
                 </Fade>
             </div>}
+
+            {isLoading && (
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0,0,0,0.5)',
+                    color: 'white',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 2, // Ensure it covers other content
+                }}>
+                    <p>Loading...</p>
+                </div>
+            )}
+
 
 
         </div>
