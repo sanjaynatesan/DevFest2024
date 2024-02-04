@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import {Link} from "react-router-dom";
 import "../App.css";
+import talkToUsPage from "./TalkToUsPage";
 function SessionStartPage() {
 
     const [time, setTime] = useState(getTimeOfDay());
@@ -39,6 +40,15 @@ function SessionStartPage() {
         }
 
         return [timeOfDay, currentHour];
+
+    }
+
+    function startSession(){
+        window.location.href = "/session";
+    }
+
+    function goToTalk(){
+        window.location.href = "/talk-to-us";
     }
 
 
@@ -50,7 +60,8 @@ function SessionStartPage() {
             </div>
             <div className="my-4 text-center">
                 <Link to="/session-pre">
-                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
+                    <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50"
+                    onClick={startSession}>
                         <div className="flex flex-row">
                             <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
                                 Find New Music
@@ -64,7 +75,8 @@ function SessionStartPage() {
                 <Link to="/talk-to-us">
                     <button className="px-4 py-3 text-center border-black border-4 font-mono rounded-3xl text-black hover:bg-gray-50">
                         <div className="flex flex-row">
-                            <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap">
+                            <div className="w-44 p-2 text-sm sm:text-lg whitespace-nowrap"
+                            onClick={goToTalk}>
                                 Talk to Us
                             </div>
                         </div>
