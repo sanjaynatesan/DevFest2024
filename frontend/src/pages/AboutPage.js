@@ -21,9 +21,17 @@ function AboutPage() {
             bottom: 0,
         }}>
                 <Fade in={true} transition={{enter: {duration: 1}}}>
-                    <img src={usImage} alt="us" className="mx-auto mt-4 w-1/2 h-1/3 rounded-md"/>
-                    <div className="mt-20 text-center text-8xl sm:text-2xl font-bold mb-20 text-white">
-                        About Us
+                    <div className="mt-20 text-center font-outfit text-5xl font-bold mb-12 text-white">
+                        The Team
+                    </div>
+                    <img src={usImage} alt="us" className="mx-auto w-1/3 h-1/4 rounded-md"/>
+                    <div className="mt-12 mx-64 text-center font-sora text-xl font-bold mb-12 text-white">
+                        <span>H</span>ey! Aaron, Erick, Sanjay, and Kent here. We're students at Columbia looking to change
+                        the way that people interact with music. As musicians ourselves, we are interested in
+                        how music contributes to our own wellness and so we figured: why not use tech to help others achieve 
+                        this? That was the motivation behind Polyphony, Greek for "many sounds" (i.e. many sounds for many feelings.),
+                        a web app that help get in touch with your feelings through music. We've put a lot of work into this project
+                        and we're excited to share what we've come up with you. We hope you enjoy Polyphony!
                     </div>
                 </Fade>
 
