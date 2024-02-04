@@ -35,7 +35,7 @@ function SessionPrePage() {
                 body: JSON.stringify({
                     username: window.localStorage.getItem("username"),
                     inputType: inputType,
-                    feelings: mindset,
+                    feelings: mindset.toLowerCase(),
                     written_feelings: inputValue,
                 }),
             });
@@ -45,8 +45,9 @@ function SessionPrePage() {
             }
 
             const data = await response.json();
+            console.log(data);
             setResponse(data.message);
-            navigate('/target-route', { state: { message: data.message } });
+            navigate('/session', { state: { message: data.message } });
         }catch (error) {
             console.error('Error submitting feelings:', error);
         }
@@ -124,11 +125,11 @@ function SessionPrePage() {
                         <button className="px-4 py-3 text-center border-black border-2 font-mono rounded-3xl text-black hover:bg-black hover:text-white"
                                 onClick={handleSubmit}>
                             <div className="flex flex-row">
-                                {/*<Link to="/session">*/}
+                                <Link to="/session">
                                     <div className="w-15 p-2 text-sm sm:text-lg whitespace-nowrap">
                                         Submit
                                     </div>
-                                {/*</Link>*/}
+                                </Link>
                             </div>
                         </button>
                     ) : (
@@ -138,17 +139,6 @@ function SessionPrePage() {
 
                 </div>
             </div>
-            {isSubmitted && <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
-                Thank you for sharing your thoughts with us. You entered:
-                {response}
-                {inputType === 0 && <div>
-                    {mindset}
-                </div>}
-                {inputType === 1 && <div>
-                    {inputValue}
-                </div>}
-            </div>
-            }
         </div>
     );
 }

@@ -391,20 +391,21 @@ def submit_feelings():
 @cross_origin(supports_credentials=True, origins=['http://127.0.0.1:3000', 'http://localhost:3000'])
 def presessionResultProcessing():
     try:
-        # data = request.get_json()
-        response = "Feeling good"#data.get('inputValue', [])
-        inputType = 1 #data.get('inputType', 0)
-        username = '9tlgjm5tb8iivhwr525qopqu7' #data.get('username', None)
-        # print(f'Received username: {username}')
+        data = request.get_json()
+        # "Feeling good"
+        inputType = data.get('inputType', 0) # 1
+        username = data.get('username', None) # '9tlgjm5tb8iivhwr525qopqu7'
         # print(f'Received response: {response}')
         # print(f'Received input type: {inputType}')
 
         conn = get_database_connection()
         curr = conn.cursor()
 
+        response = data.get('feelings', None) 
 
         # 0 is button, 1 is written
         if inputType == 1:
+            response = data.get('written_feelings', []) 
             curr.execute("SELECT emotion FROM user_songs WHERE username = %s", (username,))
             emotions_result = curr.fetchall()
 
@@ -421,9 +422,10 @@ def presessionResultProcessing():
             # process
             response = gemini.suggestions_vertex(unique_emotions, response)
 
-
         curr.execute("SELECT song_uri, reaction FROM user_songs WHERE username = %s AND emotion = %s", (username, response,))
         uri_reaction = curr.fetchall()
+
+        print(uri_reaction)
 
         # uri_reaction_list = [(uri, reaction) for uri, reaction in uri_reaction if uri != ""]
 
@@ -432,6 +434,7 @@ def presessionResultProcessing():
             if uri != "":
                 uri_reaction_list.append((uri, reaction))
 
+        print(uri_reaction_list)
 
         curr.close()
         conn.close()
@@ -445,7 +448,8 @@ def presessionResultProcessing():
             "title": returnval["name"],
             "song_uri": returnval["uri"],
             "image": returnval["album"]["images"][0]["url"],
-            "response": response
+            "response": response,
+            "username": username
         }
 
         print(to_return)
