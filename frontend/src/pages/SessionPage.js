@@ -142,7 +142,8 @@ function SessionPage() {
     const [isOpen, setIsOpen] = useState(false);
     const [submit, setSubmit] = useState(false);
     const [review, setReview] = useState('');
-    const [next, setNext] = useState(false);
+    const [nextPlay, setNextPlay] = useState(false);
+    const [nextSong, setNextSong] = useState(false);
     const [isHovering, setIsHovering] = useState({ zone1: false, zone2: false, zone3: false, zone4: false });
     const [zone1Hover, setZone1Hover] = useState(false);
     const [zone2Hover, setZone2Hover] = useState(false);
@@ -196,19 +197,25 @@ function SessionPage() {
         setIsOpen(true);
     }
 
-    function handleSubmit() {
+    function handleSubmitNextPlay() {
         setSubmit(!submit);
         setIsOpen(false);
-        setNext(!next);
+        setNextPlay(!nextPlay);
         setZone1Hover(true);
         setZone2Hover(true);
         setZone3Hover(true);
         setZone4Hover(true);
+
+
+    }
+
+    function handleSubmitNextSong() {
+        setSubmit(!submit);
+        setIsOpen(false);
+        setNextPlay(!nextPlay);
+
         if (currentSongIndex < dummyData.length - 1) {
             setCurrentSongIndex(currentSongIndex + 1);
-            if(songCount === 0){
-                setCurrentSongIndex(0)
-            }
         } else {
             goHome();
         }
@@ -311,7 +318,7 @@ function SessionPage() {
                                 <button onClick={goHome} className="px-2 py-2 mt-8 mr-4 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                     <span>End Session</span>
                                 </button>
-                                <button onClick={handleSubmit} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
+                                <button onClick={handleSubmitNextPlay} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                     <span>Next</span>
                                 </button>
                             </div>
@@ -326,7 +333,7 @@ function SessionPage() {
 
                     <div className="fixed inset-0">
 
-                        {next && (
+                        {nextPlay && (
                             <div className="flex flex-wrap items-center justify-center h-screen">
                                 <div className="flex flex-col justify-center items-center w-full">
 
@@ -353,7 +360,7 @@ function SessionPage() {
                                         <button onClick={goHome} className="px-2 py-2 mt-8 mr-4 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                             <span>End Session</span>
                                         </button>
-                                        <button onClick={handleSubmit} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
+                                        <button onClick={handleSubmitNextSong} className="px-2 py-2 mt-8 border-black border-2 font-mono rounded-3xl text-black hover:bg-gray-50">
                                             <span>Next</span>
                                         </button>
 
