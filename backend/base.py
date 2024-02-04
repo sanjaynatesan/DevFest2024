@@ -8,6 +8,8 @@ import spotipy
 # import spotipy.util as util
 from spotipy.oauth2 import SpotifyOAuth  # , SpotifyClientCredentials
 
+import random
+
 import algorithms
 import gemini
 import re
@@ -434,7 +436,10 @@ def presessionResultProcessing():
             if uri != "":
                 uri_reaction_list.append((uri, reaction))
 
-        print(uri_reaction_list)
+        if len(uri_reaction_list) <= 10:
+            uri_reaction_list = uri_reaction_list
+        else:
+            uri_reaction_list = random.sample(uri_reaction_list, 10)
 
         curr.close()
         conn.close()
@@ -513,7 +518,10 @@ def recommendation():
         if uri != "":
             uri_reaction_list.append((uri, reaction))
 
-    print(uri_reaction_list)
+    if len(uri_reaction_list) <= 10:
+        uri_reaction_list = uri_reaction_list
+    else:
+        uri_reaction_list = random.sample(uri_reaction_list, 10)
 
     curr.close()
     conn.close()

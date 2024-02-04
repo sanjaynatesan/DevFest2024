@@ -1,4 +1,10 @@
 import google.generativeai as genai
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.tag import pos_tag
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
 
 VERTEX_API_KEY = 'AIzaSyAUrSB62tVeN-GS85VG8BlcFS3vI7JRE3s'
 
@@ -27,7 +33,24 @@ def training_vertex(gcp_matches, prompt):
     
     output = str(response.text)
 
-    return output
+    output = output.split('\n')[-1]
+
+    # Tokenize the output into words
+    words = word_tokenize(output)
+
+    # Tag the words with their part-of-speech
+    tagged_words = pos_tag(words)
+
+    # Filter out only the adjectives
+    adjectives = [word for word, tag in tagged_words if tag.startswith('JJ')]
+
+    # Join the adjectives into a comma-separated string
+    adjectives_str = ', '.join(adjectives)
+
+    # Print or return the adjectives
+    print(adjectives_str)
+    # or
+    return adjectives_str
 
 def suggestions_vertex(emotions, prompt):
     genai.configure(api_key=VERTEX_API_KEY)
@@ -53,10 +76,8 @@ def suggestions_vertex(emotions, prompt):
 
     return word_output
 
-
-
 def test():
     gcp_matches = 'happy, sad, angry, excited, anxious, calm, stressed, relaxed, tired, energetic, bored, lonely, loved'
-    prompt = 'I am feeling happy today'
+    prompt = 'I am feeling very happy today because I did good on my tests. However, I am worried because my grandma has cancer. I am also a little scared of getting my final grades back.'
 
-    suggestions_vertex(gcp_matches, prompt)
+    training_vertex(gcp_matches, prompt)
