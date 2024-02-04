@@ -96,27 +96,19 @@ function TrainingPage() {
                     alt="Song Cover"
                     className="mx-auto mt-4 w-32 h-32 rounded-md"
                 />
-                {/*<div className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">Song Title</div>*/}
-                {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Artist</div>*/}
-                {/*<div className="mx-60 text-center text-xl sm:text-xl font-mono">Album</div>*/}
                 <div
                     className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
                     className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
-                <div className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].album : "Album"}</div>
-
+                {recentSongsLoaded && recentSongs && recentSongs[currentSongIndex].title !== recentSongs[currentSongIndex].album && (
+                    <div className="mx-60 text-center text-xl sm:text-xl font-mono">
+                        {recentSongs[currentSongIndex].album}
+                    </div>
+                )}
             </div>
             <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
                 How does this song make you feel?
             </div>
-            {/*<div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Jaded</div>*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Happy</div>*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Excited</div>*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Wistful</div>*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Faithful</div>*/}
-            {/*    <div className="border-black border-2 p-4 hover:cursor-pointer">Salacious</div>*/}
-            {/*</div>*/}
 
             <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
                 <div
