@@ -24,7 +24,7 @@ function TrainingPage() {
     useEffect( () => {
         async function fetchData() {
             try {
-                const response = await fetch('http://127.0.0.1:5000/recent');
+                const response = await fetch('/recent');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -109,83 +109,84 @@ function TrainingPage() {
         <div>
             <img src={trainingpagebackground} alt="background wave" className="fixed inset-0 w-full h-full object-cover z-0"
                  style={{"zIndex": -1}}/>
-            <div className="mt-20 mx-560 text-center text-xl sm:text-2xl font-mono">Hey,&nbsp;
-                <span className="text-green-400"> {displayName}.&nbsp; </span>
-                Let's talk about your music. Here is a song you played recently:
+            <div className="mt-10 mx-48 text-center text-3xl sm:text-4xl font-outfit text-ourPurple font-bold">Hey,
+                <span className="text-orange-600"> {displayName}</span>!&nbsp;
+                Here is a song you played recently:
             </div>
             <div>
-                <img
-                    src={recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].image : "#"} // Replace 'image' with the actual property name in your API response
-                    alt="Song Cover"
-                    className="mx-auto mt-4 w-32 h-32 rounded-md"
-                />
+                <img className="mx-auto mt-9 w-44 h-44 rounded-md"
+                     src="https://i.scdn.co/image/ab67616d0000b27343ec4e5bf12be32fc0beaac2"/>
                 <div
-                    className="mt-12 mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
+                    className="mt-4 mx-60 text-center text-xl sm:text-2xl font-outfit text-blue-800 font-normal">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].title : "Song Title"}</div>
                 <div
-                    className="mx-60 text-center text-xl sm:text-xl font-mono">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
+                    className="mx-60 text-center text-xl sm:text-2xl font-outfit text-blue-800 font-normal">{recentSongsLoaded && recentSongs ? recentSongs[currentSongIndex].artist : "Artist"}</div>
                 {recentSongsLoaded && recentSongs && recentSongs[currentSongIndex].title !== recentSongs[currentSongIndex].album && (
-                    <div className="mx-60 text-center text-xl sm:text-xl font-mono">
+                    <div className="mt-1 mx-60 text-center text-xl sm:text-2xl font-outfit text-blue-800 font-normal">
                         {recentSongs[currentSongIndex].album}
                     </div>
                 )}
             </div>
-            <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
-                What are you feeling when this song plays?
+            <div className="mt-3 mx-48 text-center text-3xl sm:text-4xl font-outfit text-ourPurple font-bold">
+                How do you feel when listening to this song?
             </div>
 
-            <div className="mt-12 mx-72 grid grid-cols-2 gap-4 font-mono">
+            <div className="mt-10 mx-64 grid grid-cols-2 gap-4 font-sora text-xl text-gray-800 font-bold">
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Jaded") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Jaded") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Jaded")}
                 >
                     Jaded
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Happy") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Happy") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Happy")}
                 >
                     Happy
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Stressed") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Stressed") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Stressed")}
                 >
                     Stressed
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Wistful") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Wistful") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Wistful")}
                 >
                     Wistful
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Faithful") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Faithful") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Faithful")}
                 >
                     Faithful
                 </div>
                 <div
-                    className={`border-black border-2 p-4 hover:cursor-pointer ${selectedFeelings.includes("Salacious") ? "bg-gray-300" : ""}`}
+                    className={`bg-white rounded-3xl text-center align-middle py-4 hover:cursor-pointer hover:bg-gray-50 ${selectedFeelings.includes("Salacious") ? "bg-purple-200" : ""}`}
                     onClick={() => handleFeelingClick("Salacious")}
                 >
                     Salacious
                 </div>
             </div>
-            <div>
-                <div className="mt-12 mx-60 text-center text-xl sm:text-2xl font-mono">
-                    <span className={"mr-4"}>Or, talk to us:</span>
-                    <input type="text"
-                           value={writtenFeelings}
-                           onChange={handleWrittenFeelingsChange}
-                           placeholder="Enter something..."
-                           className="border-black border-2 p-4 hover:cursor-pointer"
-                    ></input>
+
+            <div className="w-full my-6 flex justify-center items-center p-4 font-outfit font-bold">
+                <div className="flex items-center space-x-4">
+                    <p className="text-ourPurple text-4xl mb-2">Or tell us in words:</p>
+                        <input
+                        value={writtenFeelings}
+                        onChange={handleWrittenFeelingsChange}
+                        className="bg-white w-96 p-3 rounded-3xl hover:cursor-pointer font-bold text-xl text-gray-800 placeholder-gray-300"
+                        placeholder="Enter something..."
+                        />
+                    <div>
+                        <button onClick={handleSubmit} 
+                                className="p-3 hover:cursor-pointer hover:bg-purple-950 bg-ourPurple text-white text-lg">
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
-
-            <div className="mt-6 mx-72 text-center font-mono">
-                <button onClick={handleSubmit} className="border-black border-2 p-4 hover:cursor-pointer">Next</button>
-            </div>
+            
 
             {submissionStatus && (
                 <div className="mt-6 mx-72 text-center text-xl text-green-400 font-mono">{submissionStatus}</div>
