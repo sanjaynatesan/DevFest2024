@@ -3,10 +3,13 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 import requests
 
-import algorithms
 import spotipy
 # import spotipy.util as util
 from spotipy.oauth2 import SpotifyOAuth  # , SpotifyClientCredentials
+
+import algorithms
+import gemini
+import re
 
 api = Flask(__name__)
 CORS(api)
@@ -130,24 +133,10 @@ def spotify_callback():
     return "Failed to authenticate user", 500
 
 
-
-@api.route('/songemotion', methods=['POST', 'GET'])
-def song_emotion():
-    response_body = {
-        "response": "Dawg I'm stimming"
-    }
-
-    return response_body
-
-
 @api.route('/adduser', methods=['POST', 'GET'])
 def add_user():
-    print("Reached start")
     conn = get_database_connection()
-    print("Connected")
-
     cur = conn.cursor()
-    print("Cur established")
 
     data = request.get_json(force=True)
     print(data)
@@ -322,9 +311,17 @@ def submit_feelings():
     try:
         data = request.get_json()
         feelings = data.get('feelings', [])
-        written_feelings = data.get('written_feelings', None);
+        written_feelings = data.get('written_feelings', None)
+        username = data.get('username', None)
+        print(f'Received username: {username}')
         print(f'Received feelings: {feelings}')
         print(f'Received written feelings: {written_feelings}')
+        if len(written_feelings) > 10:
+            written_analysis = ''.join(gemini.training_vertex("sad, happy, jaded, excited, faithful, happy, wistful, salacious", written_feelings).splitlines()[-1:])
+            written_analysis = written_analysis.lower()
+            written_analysis = list(set(re.split(r',\s|\s|,', written_analysis)))
+            written_analysis = written_analysis[-3:]
+            print(f'Written analysis: {written_analysis}')
         return {'message': 'Good shit!'}
     except Exception as e:
         print(f'Error processing feelings: {str(e)}')
