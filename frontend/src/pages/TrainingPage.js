@@ -87,6 +87,12 @@ function TrainingPage() {
             // Reset text in input field 
             setWrittenFeelings('');
 
+            // Move on to session page after clicking next on last song
+            if (currentSongIndex === recentSongs.length - 1) {
+                window.location.href = "/session";
+                return;
+            }
+
             // Move to the next song
             setCurrentSongIndex((prevIndex) => (prevIndex + 1) % recentSongs.length);
             setSelectedFeelings([]);
