@@ -84,6 +84,9 @@ function TrainingPage() {
             const data = await response.json();
             setSubmissionStatus(data.message); // Extract the 'message' property
 
+            // Reset text in input field 
+            setWrittenFeelings('');
+
             // Move to the next song
             setCurrentSongIndex((prevIndex) => (prevIndex + 1) % recentSongs.length);
             setSelectedFeelings([]);
