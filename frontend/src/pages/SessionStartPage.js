@@ -36,7 +36,7 @@ function SessionStartPage() {
         } else if (currentHour >= 12 && currentHour < 17) {
             timeOfDay = 'afternoon';
         } else {
-            timeOfDay = 'night';
+            timeOfDay = 'evening';
         }
 
         return [timeOfDay, currentHour];
@@ -44,7 +44,7 @@ function SessionStartPage() {
     }
 
     function startSession(){
-        window.location.href = "/session";
+        window.location.href = "/session-pre";
     }
 
     function goToTalk(){
