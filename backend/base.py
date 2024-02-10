@@ -31,16 +31,16 @@ REDIRECT URI: http://localhost:5000/callback
 
 def get_database_connection():
     conn = psycopg2.connect(
-        host="34.30.54.122",
-        database="user-songs",
+        host="34.27.141.247",
+        database="postgres",
         user='kent',
         password='cookiecrew'
     )
     return conn
 
 
-CLIENT_ID = '516b7b9290614e308a2045dcadea221d'
-CLIENT_SECRET = 'fd7eb0b96d234776964a531e4c3b48bd'
+CLIENT_ID = 'ee06476b72374c539cc8ec840b2accad'
+CLIENT_SECRET = 'eedd8510b6f848f9be7c307f26babc66'
 REDIRECT_URI = 'http://127.0.0.1:7777/callback'  # Make sure this matches your actual redirect URI
 
 AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
